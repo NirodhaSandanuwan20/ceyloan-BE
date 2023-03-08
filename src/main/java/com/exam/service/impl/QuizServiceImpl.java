@@ -20,6 +20,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public Quiz addQuiz(Quiz quiz) {
+        System.out.println(quiz);
         return this.quizRepository.save(quiz);
     }
 

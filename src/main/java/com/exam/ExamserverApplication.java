@@ -37,6 +37,7 @@ public class ExamserverApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        /*
         try {
 
 
@@ -70,6 +71,6 @@ public class ExamserverApplication implements CommandLineRunner {
 
         } catch (UserFoundException e) {
             e.printStackTrace();
-        }
+        } */
     }
 }

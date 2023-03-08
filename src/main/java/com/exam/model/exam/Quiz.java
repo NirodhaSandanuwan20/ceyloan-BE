@@ -23,8 +23,22 @@ public class Quiz {
 
     private String numberOfQuestions;
 
+
+    private String timeDuration;
+
+    public String getTimeDuration() {
+        return timeDuration;
+    }
+
+    public void setTimeDuration(String timeDuration) {
+        this.timeDuration = timeDuration;
+    }
+
     private boolean active = false;
     //add..
+
+
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Category category;

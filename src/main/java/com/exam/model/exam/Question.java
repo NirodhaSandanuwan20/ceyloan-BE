@@ -20,6 +20,17 @@ public class Question {
     private String option3;
     private String option4;
 
+    private String option5;
+
+
+
+    public String getOption5() {
+        return option5;
+    }
+
+    public void setOption5(String option5) {
+        this.option5 = option5;
+    }
 
     private String answer;
 
