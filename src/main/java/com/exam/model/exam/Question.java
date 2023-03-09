@@ -33,9 +33,18 @@ public class Question {
     }
 
     private String answer;
+    private Boolean Accuracy;
 
     @Transient
     private  String givenAnswer;
+
+    public Boolean getAccuracy() {
+        return Accuracy;
+    }
+
+    public void setAccuracy(Boolean accuracy) {
+        Accuracy = accuracy;
+    }
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Quiz quiz;

@@ -95,7 +95,7 @@ public class QuestionController {
                 correctAnswers++;
 
                 double marksSingle = Double.parseDouble(questions.get(0).getQuiz().getMaxMarks()) / questions.size();
-                //       this.questions[0].quiz.maxMarks / this.questions.length;
+                //                                                                  this.questions[0].quiz.maxMarks / this.questions.length;
                 marksGot += marksSingle;
 
             }
