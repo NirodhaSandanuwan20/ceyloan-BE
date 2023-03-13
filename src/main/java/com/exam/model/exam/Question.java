@@ -1,26 +1,48 @@
 package com.exam.model.exam;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Question {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long quesId;
     @Column(length = 5000)
     private String content;
-
-    private String image;
-
     private String option1;
     private String option2;
     private String option3;
     private String option4;
-
     private String option5;
+    private String answer;
+    private Boolean Accuracy;
+    @Transient
+    private  String givenAnswer;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Quiz quiz;
+
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(name = "question_images",
+            joinColumns = {
+                    @JoinColumn(name = "ques_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "image_id")
+            }
+    )
+
+
+    private Set<ImageModel> questionImages;
+
+    public Set<ImageModel> getQuestionImages() {
+        return questionImages;
+    }
+
+    public void setQuestionImages(Set<ImageModel> questionImages) {
+        this.questionImages = questionImages;
+    }
+
 
 
 
@@ -32,12 +54,6 @@ public class Question {
         this.option5 = option5;
     }
 
-    private String answer;
-    private Boolean Accuracy;
-
-    @Transient
-    private  String givenAnswer;
-
     public Boolean getAccuracy() {
         return Accuracy;
     }
@@ -46,8 +62,7 @@ public class Question {
         Accuracy = accuracy;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Quiz quiz;
+
 
     public Question() {
     }
@@ -68,13 +83,6 @@ public class Question {
         this.content = content;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public String getOption1() {
         return option1;
