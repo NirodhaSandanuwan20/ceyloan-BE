@@ -18,4 +18,5 @@ public interface UserService {
     public void deleteUser(Long userId);
 
     public User verifyAccount(String email, String otp) throws Exception;
+    public User resendMail(String email);
 }

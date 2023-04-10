@@ -56,6 +56,12 @@ public class UserController {
         return user;
     }
 
+    @PostMapping(value = "/", params = "email")
+    public User resendMail(@RequestParam String email) throws Exception {
+        User user = userService.resendMail(email);
+        return user;
+    }
+
     @GetMapping("/{username}")
     public User getUser(@PathVariable("username") String username) {
         return this.userService.getUser(username);

@@ -107,5 +107,16 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public User resendMail(String email) {
+        Optional<User> selectedUser = this.userRepository.findByEmail(email);
+
+        String verifyCode = generator.createVerifyCode();
+        emailService.createEmail(email, "Regarding Login Verification",
+                "<h1>Your Verification Code :" + verifyCode + "</h1>");
+        selectedUser.get().setOtp(verifyCode);
+        return this.userRepository.save(selectedUser.get());
+    }
+
 
 }
