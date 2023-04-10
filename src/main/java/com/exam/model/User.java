@@ -20,8 +20,30 @@ public class User implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
+    /*@Column(unique = true)*/
     private String email;
     private String phone;
+
+    private String otp;
+
+    private Boolean isEnabled;
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    public Boolean getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(Boolean enabled) {
+        isEnabled = enabled;
+    }
+
     private boolean enabled = true;
     private String profile;
 
