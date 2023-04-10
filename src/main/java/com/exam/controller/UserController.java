@@ -26,7 +26,6 @@ public class UserController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-
     @PostMapping("/")
     public User createUser(@RequestBody User user) throws Exception {
 
@@ -49,6 +48,12 @@ public class UserController {
 
         return this.userService.createUser(user, roles);
 
+    }
+
+    @PostMapping(value = "/{otp}", params = "email")
+    public User verifyUser(@PathVariable String otp, @RequestParam String email) throws Exception {
+        User user = userService.verifyAccount(email, otp);
+        return user;
     }
 
     @GetMapping("/{username}")

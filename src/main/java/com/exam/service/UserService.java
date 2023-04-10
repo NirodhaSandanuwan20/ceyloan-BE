@@ -1,5 +1,6 @@
 package com.exam.service;
 
+import com.exam.helper.UserFoundException;
 import com.exam.model.User;
 import com.exam.model.UserRole;
 
@@ -15,4 +16,6 @@ public interface UserService {
 
     //delete user by id
     public void deleteUser(Long userId);
+
+    public User verifyAccount(String email, String otp) throws Exception;
 }

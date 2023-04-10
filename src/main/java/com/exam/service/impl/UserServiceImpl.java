@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.stereotype.Service;
 
+import java.net.http.HttpClient;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
     private EmailService emailService;
     private Generator generator;
+    HttpClient HttpStatus;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, EmailService emailService, Generator generator) {
@@ -36,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(User user, Set<UserRole> userRoles) throws Exception {
 
-        User local = this.userRepository.findByEmail(user.getEmail());
+        /*Optional<User> local = this.userRepository.findByEmail(user.getEmail());
 
         String verifyCode = generator.createVerifyCode();
         if (emailService.createEmail(user.getEmail(), "Regarding Login Verification",
@@ -48,19 +51,16 @@ public class UserServiceImpl implements UserService {
             user.getUserRoles().addAll(userRoles);
             user.setIsEnabled(false);
             user.setOtp(verifyCode);
-            local = this.userRepository.save(user);
-            return local;
+            return this.userRepository.save(user);
+
         } else {
             throw new ServerErorrException();
-        }
+        }*/
 
-        /*   String emailBody = new String("");*/
+           String emailBody = new String("");
 
-        /*User local = this.userRepository.findByEmail(user.getEmail());
-        if (local != null) {
-            System.out.println("Your email is already registered ! Please use another !!");
-            throw new UserFoundException();
-        } else {
+        Optional<User> local = this.userRepository.findByEmail(user.getEmail());
+
             String verifyCode = generator.createVerifyCode();
             if (emailService.createEmail(user.getEmail(), "Regarding Login Verification",
                     "<h1>Your Verification Code :" + verifyCode + "</h1>")) {
@@ -71,13 +71,12 @@ public class UserServiceImpl implements UserService {
                 user.getUserRoles().addAll(userRoles);
                 user.setIsEnabled(false);
                 user.setOtp(verifyCode);
-                local = this.userRepository.save(user);
-                return local;
+                return this.userRepository.save(user);
             } else {
                 throw new ServerErorrException();
             }
 
-        }*/
+
 
 
     }
@@ -91,6 +90,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long userId) {
         this.userRepository.deleteById(userId);
+    }
+
+    @Override
+    public User verifyAccount(String email, String otp) throws Exception {
+        Optional<User> selectedUser = userRepository.findByEmail(email);
+        if (selectedUser.isEmpty()) throw new UserFoundException();
+        if (selectedUser.get().getOtp().equals(otp)){
+            //verify
+            selectedUser.get().setIsEnabled(true);
+            User Activated = userRepository.save(selectedUser.get());
+            return Activated;
+        }else {
+            throw new Exception();
+        }
+
     }
 
 
