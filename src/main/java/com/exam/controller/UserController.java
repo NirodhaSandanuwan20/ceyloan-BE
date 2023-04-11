@@ -4,7 +4,6 @@ import com.exam.helper.UserFoundException;
 import com.exam.model.Role;
 import com.exam.model.User;
 import com.exam.model.UserRole;
-import com.exam.service.EmailService;
 import com.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +52,16 @@ public class UserController {
     @PostMapping(value = "/{otp}", params = "email")
     public User verifyUser(@PathVariable String otp, @RequestParam String email) throws Exception {
         User user = userService.verifyAccount(email, otp);
+        return user;
+    }
+
+    @PostMapping(value = "/{otp}", params = "email,newPassword")
+    public User changePassword(@PathVariable String otp, @RequestParam String email, @RequestParam String newPassword) throws Exception {
+        System.out.println(otp);
+        System.out.println(email);
+        System.out.println(newPassword);
+        newPassword = this.bCryptPasswordEncoder.encode(newPassword);
+        User user = userService.changePassword(otp, email, newPassword);
         return user;
     }
 

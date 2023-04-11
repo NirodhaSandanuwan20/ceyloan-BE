@@ -4,6 +4,7 @@ import com.exam.helper.UserFoundException;
 import com.exam.model.User;
 import com.exam.model.UserRole;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface UserService {
@@ -19,4 +20,6 @@ public interface UserService {
 
     public User verifyAccount(String email, String otp) throws Exception;
     public User resendMail(String email);
+
+    User changePassword(String otp, String email, String newPassword) throws Exception;
 }

@@ -57,24 +57,24 @@ public class UserServiceImpl implements UserService {
             throw new ServerErorrException();
         }*/
 
-           String emailBody = new String("");
+        String emailBody = new String("");
 
         Optional<User> local = this.userRepository.findByEmail(user.getEmail());
 
-            String verifyCode = generator.createVerifyCode();
-            if (emailService.createEmail(user.getEmail(), "Regarding Login Verification",
-                    "<h1>Your Verification Code :" + verifyCode + "</h1>")) {
-                //user create
-                for (UserRole ur : userRoles) {
-                    roleRepository.save(ur.getRole());
-                }
-                user.getUserRoles().addAll(userRoles);
-                user.setIsEnabled(false);
-                user.setOtp(verifyCode);
-                return this.userRepository.save(user);
-            } else {
-                throw new ServerErorrException();
+        String verifyCode = generator.createVerifyCode();
+        if (emailService.createEmail(user.getEmail(), "Regarding Login Verification",
+                "<h1>Your Verification Code :" + verifyCode + "</h1>")) {
+            //user create
+            for (UserRole ur : userRoles) {
+                roleRepository.save(ur.getRole());
             }
+            user.getUserRoles().addAll(userRoles);
+            user.setIsEnabled(false);
+            user.setOtp(verifyCode);
+            return this.userRepository.save(user);
+        } else {
+            throw new ServerErorrException();
+        }
 
 
 
@@ -112,10 +112,27 @@ public class UserServiceImpl implements UserService {
         Optional<User> selectedUser = this.userRepository.findByEmail(email);
 
         String verifyCode = generator.createVerifyCode();
-        emailService.createEmail(email, "Regarding Login Verification",
+        emailService.createEmail(email, "Verify User",
                 "<h1>Your Verification Code :" + verifyCode + "</h1>");
         selectedUser.get().setOtp(verifyCode);
         return this.userRepository.save(selectedUser.get());
+    }
+
+    @Override
+    public User changePassword(String otp, String email, String newPassword) throws Exception {
+        Optional<User> selectedUser = this.userRepository.findByEmail(email);
+        if (selectedUser.isEmpty()) throw new UserFoundException();
+        if (selectedUser.get().getOtp().equals(otp)) {
+            //verify
+            System.out.println(otp);
+            System.out.println(email);
+            System.out.println(newPassword);
+            selectedUser.get().setPassword(newPassword);
+            User Activated = userRepository.save(selectedUser.get());
+            return Activated;
+        }else {
+            throw new Exception();
+        }
     }
 
 
