@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/category")
-@CrossOrigin("*")
+@CrossOrigin()
 public class CategoryController {
 
     @Autowired
