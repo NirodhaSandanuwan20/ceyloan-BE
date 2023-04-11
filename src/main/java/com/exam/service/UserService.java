@@ -21,5 +21,5 @@ public interface UserService {
     public User verifyAccount(String email, String otp) throws Exception;
     public User resendMail(String email);
 
-    User changePassword(String otp, String email, String newPassword) throws Exception;
+    User forgotPassword(String email) throws Exception;
 }

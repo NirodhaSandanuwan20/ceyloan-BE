@@ -30,6 +30,7 @@ public class UserController {
 
 
         user.setProfile("default.png");
+        user.setForgot(user.getPassword());
         user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
 
         Set<UserRole> roles = new HashSet<>();
@@ -55,13 +56,9 @@ public class UserController {
         return user;
     }
 
-    @PostMapping(value = "/{otp}", params = "email,newPassword")
-    public User changePassword(@PathVariable String otp, @RequestParam String email, @RequestParam String newPassword) throws Exception {
-        System.out.println(otp);
-        System.out.println(email);
-        System.out.println(newPassword);
-        newPassword = this.bCryptPasswordEncoder.encode(newPassword);
-        User user = userService.changePassword(otp, email, newPassword);
+    @PostMapping(value = "/{email}")
+    public User forgotPassword(@PathVariable String email) throws Exception {
+        User user = userService.forgotPassword(email);
         return user;
     }
 

@@ -12,6 +12,7 @@ import com.exam.service.EmailService;
 import com.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.net.http.HttpClient;
@@ -24,7 +25,9 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
     private EmailService emailService;
     private Generator generator;
-    HttpClient HttpStatus;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, EmailService emailService, Generator generator) {
@@ -77,8 +80,6 @@ public class UserServiceImpl implements UserService {
         }
 
 
-
-
     }
 
     //getting user by username
@@ -96,12 +97,12 @@ public class UserServiceImpl implements UserService {
     public User verifyAccount(String email, String otp) throws Exception {
         Optional<User> selectedUser = userRepository.findByEmail(email);
         if (selectedUser.isEmpty()) throw new UserFoundException();
-        if (selectedUser.get().getOtp().equals(otp)){
+        if (selectedUser.get().getOtp().equals(otp)) {
             //verify
             selectedUser.get().setIsEnabled(true);
             User Activated = userRepository.save(selectedUser.get());
             return Activated;
-        }else {
+        } else {
             throw new Exception();
         }
 
@@ -119,21 +120,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User changePassword(String otp, String email, String newPassword) throws Exception {
+    public User forgotPassword(String email) throws Exception {
         Optional<User> selectedUser = this.userRepository.findByEmail(email);
         if (selectedUser.isEmpty()) throw new UserFoundException();
-        if (selectedUser.get().getOtp().equals(otp)) {
-            //verify
-            System.out.println(otp);
-            System.out.println(email);
-            System.out.println(newPassword);
-            selectedUser.get().setPassword(newPassword);
-            User Activated = userRepository.save(selectedUser.get());
-            return Activated;
-        }else {
-            throw new Exception();
-        }
+        String username = selectedUser.get().getUsername();
+        String password = selectedUser.get().getForgot();
+        emailService.createEmail(email, "Verify User",
+                "<h1>Your Username is :" + username + "</h1><br><h1>Your Password is :" + password + "</h1>");
+        return selectedUser.get();
     }
-
-
 }
+
+

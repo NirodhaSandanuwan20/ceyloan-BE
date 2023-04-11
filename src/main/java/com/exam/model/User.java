@@ -20,6 +20,25 @@ public class User implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
+
+    private String forgot;
+
+    public String getForgot() {
+        return forgot;
+    }
+
+    public void setForgot(String forgot) {
+        this.forgot = forgot;
+    }
+
+    public Boolean getEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        isEnabled = enabled;
+    }
+
     @Column(unique = true)
     private String email;
     private String phone;
