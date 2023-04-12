@@ -14,6 +14,31 @@ public class Category {
     private Long cid;
 
     private String title;
+    private String audience;
+
+    public Category(Long cid, String title, String audience, String description, Set<Quiz> quizzes) {
+        this.cid = cid;
+        this.title = title;
+        this.audience = audience;
+        this.description = description;
+        this.quizzes = quizzes;
+    }
+
+    public String getAudience() {
+        return audience;
+    }
+
+    public void setAudience(String audience) {
+        this.audience = audience;
+    }
+
+    public Set<Quiz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(Set<Quiz> quizzes) {
+        this.quizzes = quizzes;
+    }
 
     private String description;
 
