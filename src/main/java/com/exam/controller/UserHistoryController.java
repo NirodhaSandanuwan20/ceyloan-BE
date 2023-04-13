@@ -20,6 +20,11 @@ public class UserHistoryController {
 
     @PostMapping("/")
     public ResponseEntity<UserHistory> save(@RequestBody UserHistory h) {
+        System.out.println(h.getPaper());
+        System.out.println(h.getUser());
+        System.out.println(h.getDate());
+        System.out.println(h.getFullMarks());
+        System.out.println(h.getYourMarks());
         return ResponseEntity.ok(this.historyService.saveHistory(h));
     }
 }
