@@ -1,5 +1,6 @@
 package com.exam.model;
 
+import com.exam.model.exam.Quiz;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -20,8 +22,51 @@ public class User implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
-
     private String forgot;
+    @Column(unique = true)
+    private String email;
+    private String phone;
+
+    private String otp;
+
+    private Boolean isEnabled;
+
+    private boolean enabled = true;
+    private String profile;
+
+    //user many roles
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    @JsonIgnore
+    private Set<UserRole> userRoles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<UserHistory> history = new LinkedHashSet<>();
+
+    public User(Long id, String username, String password, String firstName, String lastName, String forgot, String email, String phone, String otp, Boolean isEnabled, boolean enabled, String profile, Set<UserRole> userRoles, Set<UserHistory> history) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.forgot = forgot;
+        this.email = email;
+        this.phone = phone;
+        this.otp = otp;
+        this.isEnabled = isEnabled;
+        this.enabled = enabled;
+        this.profile = profile;
+        this.userRoles = userRoles;
+        this.history = history;
+    }
+
+    public Set<UserHistory> getHistory() {
+        return history;
+    }
+
+    public void setHistory(Set<UserHistory> history) {
+        this.history = history;
+    }
 
     public String getForgot() {
         return forgot;
@@ -39,13 +84,6 @@ public class User implements UserDetails {
         isEnabled = enabled;
     }
 
-    @Column(unique = true)
-    private String email;
-    private String phone;
-
-    private String otp;
-
-    private Boolean isEnabled;
 
     public String getOtp() {
         return otp;
@@ -63,16 +101,6 @@ public class User implements UserDetails {
         isEnabled = enabled;
     }
 
-    private boolean enabled = true;
-    private String profile;
-
-    //user many roles
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-    @JsonIgnore
-    private Set<UserRole> userRoles = new HashSet<>();
-
-
     public User() {
 
     }
@@ -85,17 +113,7 @@ public class User implements UserDetails {
         this.userRoles = userRoles;
     }
 
-    public User(Long id, String username, String password, String firstName, String lastName, String email, String phone, boolean enabled, String profile) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.enabled = enabled;
-        this.profile = profile;
-    }
+
 
     public String getProfile() {
         return profile;

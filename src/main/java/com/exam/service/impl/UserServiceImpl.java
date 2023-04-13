@@ -97,6 +97,7 @@ public class UserServiceImpl implements UserService {
     public User verifyAccount(String email, String otp) throws Exception {
         Optional<User> selectedUser = userRepository.findByEmail(email);
         if (selectedUser.isEmpty()) throw new UserFoundException();
+        System.out.println(otp);
         if (selectedUser.get().getOtp().equals(otp)) {
             //verify
             selectedUser.get().setIsEnabled(true);

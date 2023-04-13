@@ -16,6 +16,10 @@ public class Category {
     private String title;
     private String audience;
 
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Quiz> quizzes = new LinkedHashSet<>();
+
     public Category(Long cid, String title, String audience, String description, Set<Quiz> quizzes) {
         this.cid = cid;
         this.title = title;
@@ -42,9 +46,7 @@ public class Category {
 
     private String description;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<Quiz> quizzes = new LinkedHashSet<>();
+
 
     public Category() {
     }
