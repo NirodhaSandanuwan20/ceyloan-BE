@@ -26,14 +26,6 @@ public class Quiz {
 
     private String timeDuration;
 
-    public String getTimeDuration() {
-        return timeDuration;
-    }
-
-    public void setTimeDuration(String timeDuration) {
-        this.timeDuration = timeDuration;
-    }
-
     private boolean active = false;
     //add..
 
@@ -46,6 +38,16 @@ public class Quiz {
     @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Question> questions = new HashSet<>();
+
+    public String getTimeDuration() {
+        return timeDuration;
+    }
+
+    public void setTimeDuration(String timeDuration) {
+        this.timeDuration = timeDuration;
+    }
+
+
 
 
     public Quiz() {

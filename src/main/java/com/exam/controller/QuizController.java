@@ -22,9 +22,6 @@ public class QuizController {
     //add quiz service
     @PostMapping("/")
     public ResponseEntity<Quiz> add(@RequestBody Quiz quiz) {
-        System.out.println(quiz);
-        System.out.println(quiz.getCategory());
-        System.out.println(quiz.getqId());
         return ResponseEntity.ok(this.quizService.addQuiz(quiz));
     }
 

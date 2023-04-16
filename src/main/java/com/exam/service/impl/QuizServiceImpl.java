@@ -46,7 +46,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<Quiz> getQuizzesOfCategory(Category category) {
-        return this.quizRepository.findBycategory(category);
+        return this.quizRepository.findByCategory(category);
     }
 
 
