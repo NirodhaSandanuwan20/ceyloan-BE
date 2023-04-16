@@ -11,7 +11,9 @@ public class UserHistory {
 
     private String date;
 
-    private String paper;
+    private String category;
+
+    private String title;
 
     private String fullMarks;
 
@@ -23,13 +25,23 @@ public class UserHistory {
     public UserHistory() {
     }
 
-    public UserHistory(Long hId, String date, String paper, String fullMarks, String yourMarks, User user) {
+
+    public UserHistory(Long hId, String date, String category, String title, String fullMarks, String yourMarks, User user) {
         this.hId = hId;
         this.date = date;
-        this.paper = paper;
+        this.category = category;
+        this.title = title;
         this.fullMarks = fullMarks;
         this.yourMarks = yourMarks;
         this.user = user;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Long gethId() {
@@ -48,12 +60,12 @@ public class UserHistory {
         this.date = date;
     }
 
-    public String getPaper() {
-        return paper;
+    public String getCategory() {
+        return category;
     }
 
-    public void setPaper(String paper) {
-        this.paper = paper;
+    public void setCategory(String paper) {
+        this.category = paper;
     }
 
     public String getFullMarks() {

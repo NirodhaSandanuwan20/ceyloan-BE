@@ -63,6 +63,9 @@ public class UserServiceImpl implements UserService {
         String emailBody = new String("");
 
         Optional<User> local = this.userRepository.findByEmail(user.getEmail());
+        if(!local.isEmpty()){
+            throw new UserFoundException();
+        }
 
         String verifyCode = generator.createVerifyCode();
         if (emailService.createEmail(user.getEmail(), "Regarding Login Verification",
