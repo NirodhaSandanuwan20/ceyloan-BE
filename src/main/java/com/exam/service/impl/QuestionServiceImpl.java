@@ -1,5 +1,6 @@
 package com.exam.service.impl;
 
+import com.exam.helper.UserFoundException;
 import com.exam.model.exam.Question;
 import com.exam.model.exam.Quiz;
 import com.exam.repo.QuestionRepository;
@@ -37,9 +38,12 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Set<Question> getQuestionsOfQuiz(Quiz quiz) {
-        return this.questionRepository.findByQuiz(quiz);
-    }
+    public Set<Question> getQuestionsOfQuiz(Quiz quiz) throws Exception {
+        if(!quiz.getQuestions().isEmpty()){
+            return this.questionRepository.findByQuiz(quiz);
+        }
+        throw new Exception();
+     }
 
     @Override
     public void deleteQuestion(Long quesId) {

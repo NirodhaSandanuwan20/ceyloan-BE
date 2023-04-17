@@ -1,5 +1,6 @@
 package com.exam.controller;
 
+import com.exam.helper.UserFoundException;
 import com.exam.model.exam.ImageModel;
 import com.exam.model.exam.Question;
 import com.exam.model.exam.Quiz;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.management.Query;
 import java.io.IOException;
 import java.util.*;
 
@@ -61,7 +61,7 @@ public class QuestionController {
 
     //get all question of any quid
     @GetMapping("/quiz/{qid}")
-    public ResponseEntity<?> getQuestionsOfQuiz(@PathVariable("qid") Long qid) {
+    public ResponseEntity<?> getQuestionsOfQuiz(@PathVariable("qid") Long qid) throws Exception {
         Quiz quiz = new Quiz();
         quiz.setqId(qid);
         Set<Question> questionsOfQuiz = this.questionService.getQuestionsOfQuiz(quiz);
@@ -81,7 +81,7 @@ public class QuestionController {
 
 
     @GetMapping("/quiz/all/{qid}")
-    public ResponseEntity<?> getQuestionsOfQuizAdmin(@PathVariable("qid") Long qid) {
+    public ResponseEntity<?> getQuestionsOfQuizAdmin(@PathVariable("qid") Long qid) throws Exception {
         Quiz quiz = new Quiz();
         quiz.setqId(qid);
         Set<Question> questionsOfQuiz = this.questionService.getQuestionsOfQuiz(quiz);

@@ -1,5 +1,6 @@
 package com.exam.service;
 
+import com.exam.helper.UserFoundException;
 import com.exam.model.exam.Question;
 import com.exam.model.exam.Quiz;
 
@@ -15,7 +16,7 @@ public interface QuestionService {
 
     public Question getQuestion(Long questionId);
 
-    public Set<Question> getQuestionsOfQuiz(Quiz quiz);
+    public Set<Question> getQuestionsOfQuiz(Quiz quiz) throws Exception;
 
     public void deleteQuestion(Long quesId);
 

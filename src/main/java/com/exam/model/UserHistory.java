@@ -19,6 +19,20 @@ public class UserHistory {
 
     private String yourMarks;
 
+    private String savedTime;
+
+    public UserHistory(String savedTime) {
+        this.savedTime = savedTime;
+    }
+
+    public String getSavedTime() {
+        return savedTime;
+    }
+
+    public void setSavedTime(String savedTime) {
+        this.savedTime = savedTime;
+    }
+
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
