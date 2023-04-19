@@ -6,9 +6,12 @@ import com.exam.model.exam.Quiz;
 import com.exam.repo.QuestionRepository;
 import com.exam.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -38,11 +41,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Set<Question> getQuestionsOfQuiz(Quiz quiz) throws Exception {
-        if(!quiz.getQuestions().isEmpty()){
-            return this.questionRepository.findByQuiz(quiz);
-        }
-        throw new Exception();
+    public List<Question> getQuestionsOfQuiz(Quiz quiz, int pageNumber){
+
+        Pageable pageable = PageRequest.of(pageNumber,5);
+            return this.questionRepository.findByQuiz(quiz,pageable);
+
      }
 
     @Override

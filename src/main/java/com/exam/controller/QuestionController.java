@@ -61,10 +61,10 @@ public class QuestionController {
 
     //get all question of any quid
     @GetMapping("/quiz/{qid}")
-    public ResponseEntity<?> getQuestionsOfQuiz(@PathVariable("qid") Long qid) throws Exception {
+    public ResponseEntity<?> getQuestionsOfQuiz(@PathVariable("qid") Long qid, @RequestParam(defaultValue = "0") int pageNumber){
         Quiz quiz = new Quiz();
         quiz.setqId(qid);
-        Set<Question> questionsOfQuiz = this.questionService.getQuestionsOfQuiz(quiz);
+        List<Question> questionsOfQuiz = this.questionService.getQuestionsOfQuiz(quiz,pageNumber);
         return ResponseEntity.ok(questionsOfQuiz);
 
        /* Quiz quiz = this.quizService.getQuiz(qid);
@@ -81,10 +81,10 @@ public class QuestionController {
 
 
     @GetMapping("/quiz/all/{qid}")
-    public ResponseEntity<?> getQuestionsOfQuizAdmin(@PathVariable("qid") Long qid) throws Exception {
+    public ResponseEntity<?> getQuestionsOfQuizAdmin(@PathVariable("qid") Long qid,  @RequestParam(defaultValue = "0") int pageNumber){
         Quiz quiz = new Quiz();
         quiz.setqId(qid);
-        Set<Question> questionsOfQuiz = this.questionService.getQuestionsOfQuiz(quiz);
+        List<Question> questionsOfQuiz = this.questionService.getQuestionsOfQuiz(quiz,pageNumber);
         return ResponseEntity.ok(questionsOfQuiz);
 
 //        return ResponseEntity.ok(list);

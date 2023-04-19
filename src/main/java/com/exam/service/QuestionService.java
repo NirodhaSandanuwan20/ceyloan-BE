@@ -4,6 +4,7 @@ import com.exam.helper.UserFoundException;
 import com.exam.model.exam.Question;
 import com.exam.model.exam.Quiz;
 
+import java.util.List;
 import java.util.Set;
 
 public interface QuestionService {
@@ -16,7 +17,7 @@ public interface QuestionService {
 
     public Question getQuestion(Long questionId);
 
-    public Set<Question> getQuestionsOfQuiz(Quiz quiz) throws Exception;
+    public List<Question> getQuestionsOfQuiz(Quiz quiz, int pageNumber);
 
     public void deleteQuestion(Long quesId);
 
