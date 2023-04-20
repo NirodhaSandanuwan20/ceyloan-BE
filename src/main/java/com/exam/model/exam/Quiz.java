@@ -23,14 +23,13 @@ public class Quiz {
 
     private String numberOfQuestions;
 
+    private String paperLink;
+
 
     private String timeDuration;
 
     private boolean active = false;
     //add..
-
-
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
@@ -38,6 +37,27 @@ public class Quiz {
     @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Question> questions = new HashSet<>();
+
+    public Quiz(Long qId, String title, String description, String maxMarks, String numberOfQuestions, String paperLink, String timeDuration, boolean active, Category category, Set<Question> questions) {
+        this.qId = qId;
+        this.title = title;
+        this.description = description;
+        this.maxMarks = maxMarks;
+        this.numberOfQuestions = numberOfQuestions;
+        this.paperLink = paperLink;
+        this.timeDuration = timeDuration;
+        this.active = active;
+        this.category = category;
+        this.questions = questions;
+    }
+
+    public String getPaperLink() {
+        return paperLink;
+    }
+
+    public void setPaperLink(String paperLink) {
+        this.paperLink = paperLink;
+    }
 
     public String getTimeDuration() {
         return timeDuration;
