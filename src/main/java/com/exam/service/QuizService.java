@@ -22,7 +22,7 @@ public interface QuizService {
 
     public List<Quiz> getQuizzesOfCategory(Category category);
 
-    public List<Quiz> getActiveQuizzes(int pageNumber, String searchText);
+    public List<Quiz> getActiveQuizzes(int pageNumber, String searchText1,String searchText2);
 
     public List<Quiz> getActiveQuizzesOfCategory(Category c);
 

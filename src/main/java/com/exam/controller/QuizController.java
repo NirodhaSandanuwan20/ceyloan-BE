@@ -59,8 +59,8 @@ public class QuizController {
 
     //get active quizzes
     @GetMapping("/active")
-    public List<Quiz> getActiveQuizzes(@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "") String searchText) {
-        return this.quizService.getActiveQuizzes(pageNumber,searchText);
+    public List<Quiz> getActiveQuizzes(@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "") String searchText1, @RequestParam(defaultValue = "") String searchText2) {
+        return this.quizService.getActiveQuizzes(pageNumber, searchText1, searchText2);
     }
 
     //get active quizzes of category
