@@ -5,6 +5,8 @@ import com.exam.model.exam.Quiz;
 import com.exam.repo.QuizRepository;
 import com.exam.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -53,13 +55,15 @@ public class QuizServiceImpl implements QuizService {
     //get active quizzes
 
     @Override
-    public List<Quiz> getActiveQuizzes() {
-        return this.quizRepository.findByActive(true);
+    public List<Quiz> getActiveQuizzes(int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber,4);
+        return this.quizRepository.findByActive(true,pageable);
     }
 
     @Override
-    public List<Quiz> getActiveQuizzesOfCategory(Category c) {
-        return this.quizRepository.findByCategoryAndActive(c, true);
+    public List<Quiz> getActiveQuizzesOfCategory(Category c,int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber,1);
+        return this.quizRepository.findByCategoryAndActive(c, true,pageable);
     }
 
 }

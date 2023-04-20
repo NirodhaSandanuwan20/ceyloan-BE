@@ -59,16 +59,16 @@ public class QuizController {
 
     //get active quizzes
     @GetMapping("/active")
-    public List<Quiz> getActiveQuizzes() {
-        return this.quizService.getActiveQuizzes();
+    public List<Quiz> getActiveQuizzes(@RequestParam(defaultValue = "0") int pageNumber) {
+        return this.quizService.getActiveQuizzes(pageNumber);
     }
 
     //get active quizzes of category
     @GetMapping("/category/active/{cid}")
-    public List<Quiz> getActiveQuizzes(@PathVariable("cid") Long cid) {
+    public List<Quiz> getActiveQuizzes(@PathVariable("cid") Long cid,@RequestParam(defaultValue = "0") int pageNumber) {
         Category category = new Category();
         category.setCid(cid);
-        return this.quizService.getActiveQuizzesOfCategory(category);
+        return this.quizService.getActiveQuizzesOfCategory(category,pageNumber);
     }
 
 
