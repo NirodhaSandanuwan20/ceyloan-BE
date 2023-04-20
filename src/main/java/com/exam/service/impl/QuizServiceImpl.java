@@ -32,8 +32,14 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Set<Quiz> getQuizzes() {
-        return new HashSet<>(this.quizRepository.findAll());
+    public List<Quiz> getQuizzes(int pageNumber,String searchText1, String searchText2) {
+        Pageable pageable = PageRequest.of(pageNumber, 4);
+        if (searchText1.equals("") && searchText2.equals("")) {
+            return (List<Quiz>) this.quizRepository.findByActive(true,pageable);
+        }else{
+            return (List<Quiz>) quizRepository.findByTitleContainingIgnoreCaseAndCategory_TitleContainingIgnoreCase(
+                    searchText1, searchText2, pageable);
+        }
     }
 
     @Override

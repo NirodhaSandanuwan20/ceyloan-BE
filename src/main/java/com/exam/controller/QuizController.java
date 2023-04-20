@@ -34,8 +34,8 @@ public class QuizController {
 
     //get quiz
     @GetMapping("/")
-    public ResponseEntity<?> quizzes() {
-        return ResponseEntity.ok(this.quizService.getQuizzes());
+    public ResponseEntity<?> quizzes(@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "") String searchText1, @RequestParam(defaultValue = "") String searchText2) {
+        return ResponseEntity.ok(this.quizService.getQuizzes(pageNumber, searchText1, searchText2));
     }
 
     //get single quiz

@@ -13,7 +13,7 @@ public interface QuizService {
 
     public Quiz updateQuiz(Quiz quiz);
 
-    public Set<Quiz> getQuizzes();
+    public List<Quiz> getQuizzes(int pageNumber, String searchText1,String searchText2);
 
     public Quiz getQuiz(Long quizId);
 
