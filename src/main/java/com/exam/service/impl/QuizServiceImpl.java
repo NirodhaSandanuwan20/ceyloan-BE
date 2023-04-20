@@ -55,15 +55,21 @@ public class QuizServiceImpl implements QuizService {
     //get active quizzes
 
     @Override
-    public List<Quiz> getActiveQuizzes(int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber,4);
-        return this.quizRepository.findByActive(true,pageable);
+    public List<Quiz> getActiveQuizzes(int pageNumber,String searchText) {
+        Pageable pageable = PageRequest.of(pageNumber, 4);
+        if (searchText.equals("")) {
+            return (List<Quiz>) this.quizRepository.findByActive(true,pageable);
+        }else{
+            return (List<Quiz>) quizRepository.findByTitleContainingIgnoreCaseOrCategory_TitleContainingIgnoreCaseAndActive(
+                    searchText, searchText,true, pageable);
+        }
+
     }
 
     @Override
-    public List<Quiz> getActiveQuizzesOfCategory(Category c,int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber,1);
-        return this.quizRepository.findByCategoryAndActive(c, true,pageable);
+    public List<Quiz> getActiveQuizzesOfCategory(Category c) {
+
+        return this.quizRepository.findByCategoryAndActive(c, true);
     }
 
 }
