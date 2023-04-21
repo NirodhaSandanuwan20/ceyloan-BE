@@ -33,4 +33,10 @@ public class UserHistoryController {
         return this.historyService.getUserHistory(user);
     }
 
+    @GetMapping("/")
+    public List<UserHistory> getQuizAttempts(@RequestParam Long qid) {
+
+        return this.historyService.getQuizAttempts(qid);
+    }
+
 }

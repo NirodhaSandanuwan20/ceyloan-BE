@@ -30,5 +30,10 @@ public class UserHistoryServiceImpl implements UserHistoryService {
         return this.userHistoryRepository.findByUser(user);
     }
 
+    @Override
+    public List<UserHistory> getQuizAttempts(Long qid) {
+        return this.userHistoryRepository.findByQid(qid);
+    }
+
 
 }

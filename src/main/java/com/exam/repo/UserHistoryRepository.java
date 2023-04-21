@@ -14,4 +14,5 @@ import java.util.List;
 @EnableJpaRepositories
 public interface UserHistoryRepository extends JpaRepository<UserHistory, Long> {
     List<UserHistory> findByUser(User user);
+    List<UserHistory> findByQid(Long qid);
 }

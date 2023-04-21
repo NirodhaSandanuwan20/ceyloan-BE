@@ -21,6 +21,16 @@ public class UserHistory {
 
     private String savedTime;
 
+    private Long qid;
+
+    public Long getQid() {
+        return qid;
+    }
+
+    public void setQid(Long qid) {
+        this.qid = qid;
+    }
+
     public UserHistory(String savedTime) {
         this.savedTime = savedTime;
     }
@@ -40,13 +50,15 @@ public class UserHistory {
     }
 
 
-    public UserHistory(Long hId, String date, String category, String title, String fullMarks, String yourMarks, User user) {
+    public UserHistory(Long hId, String date, String category, String title, String fullMarks, String yourMarks, String savedTime, Long qid, User user) {
         this.hId = hId;
         this.date = date;
         this.category = category;
         this.title = title;
         this.fullMarks = fullMarks;
         this.yourMarks = yourMarks;
+        this.savedTime = savedTime;
+        this.qid = qid;
         this.user = user;
     }
 

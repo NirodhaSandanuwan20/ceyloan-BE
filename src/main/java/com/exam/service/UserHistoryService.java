@@ -13,4 +13,6 @@ public interface UserHistoryService {
     public UserHistory saveHistory(UserHistory h);
 
     List<UserHistory> getUserHistory(User user);
+
+    List<UserHistory> getQuizAttempts(Long qid);
 }
