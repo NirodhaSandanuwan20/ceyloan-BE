@@ -34,9 +34,9 @@ public class UserHistoryController {
     }
 
     @GetMapping("/")
-    public List<UserHistory> getQuizAttempts(@RequestParam Long qid) {
+    public List<UserHistory> getQuizAttempts(@RequestParam Long qid, @RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "") String searchText1, @RequestParam(defaultValue = "") String searchText2) {
 
-        return this.historyService.getQuizAttempts(qid);
+        return this.historyService.getQuizAttempts(qid,pageNumber,searchText1,searchText2);
     }
 
 }

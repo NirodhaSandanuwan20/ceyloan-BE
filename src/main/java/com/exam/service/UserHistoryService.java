@@ -14,5 +14,5 @@ public interface UserHistoryService {
 
     List<UserHistory> getUserHistory(User user);
 
-    List<UserHistory> getQuizAttempts(Long qid);
+    List<UserHistory> getQuizAttempts(Long qid, int pageNumber, String searchText1, String searchText2);
 }
