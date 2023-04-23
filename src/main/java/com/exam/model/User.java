@@ -43,7 +43,11 @@ public class User implements UserDetails {
     @JsonIgnore
     private Set<UserHistory> history = new LinkedHashSet<>();
 
-    public User(Long id, String username, String password, String firstName, String lastName, String forgot, String email, String phone, String otp, Boolean isEnabled, boolean enabled, String profile, Set<UserRole> userRoles, Set<UserHistory> history) {
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<UserCategory> myCategory = new LinkedHashSet<>();
+
+    public User(Long id, String username, String password, String firstName, String lastName, String forgot, String email, String phone, String otp, Boolean isEnabled, boolean enabled, String profile, Set<UserRole> userRoles, Set<UserHistory> history, Set<UserCategory> myCategory) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -58,6 +62,15 @@ public class User implements UserDetails {
         this.profile = profile;
         this.userRoles = userRoles;
         this.history = history;
+        this.myCategory = myCategory;
+    }
+
+    public Set<UserCategory> getMyCategory() {
+        return myCategory;
+    }
+
+    public void setMyCategory(Set<UserCategory> myCategory) {
+        this.myCategory = myCategory;
     }
 
     public Set<UserHistory> getHistory() {
