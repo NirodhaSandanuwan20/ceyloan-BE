@@ -23,14 +23,22 @@ public class UserCategoryController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<UserCategory> addUserCategory(@RequestBody UserCategory h) throws UserCategoryFoundException {
-        return ResponseEntity.ok(this.userCategoryService.addUserCategory(h));
+    public ResponseEntity<UserCategory> addUserCategory(@RequestBody UserCategory c) throws UserCategoryFoundException {
+        return ResponseEntity.ok(this.userCategoryService.addUserCategory(c));
     }
 
-    @GetMapping("/{cid}")
-    public List<UserCategory> getUserCategory(@PathVariable Long cid) {
-        return this.userCategoryService.getUserCategory(cid);
+    @GetMapping("/{userId}")
+    public List<UserCategory> getUserCategory(@PathVariable Long userId) {
+        return this.userCategoryService.getUserCategory(userId);
     }
+
+    @DeleteMapping("/")
+    public void deleteSelectedUserCategory(@RequestParam Long userCategoryId) {
+
+         this.userCategoryService.deleteSelectedUserCategory(userCategoryId);
+    }
+
+
 
     @ExceptionHandler(UserCategoryFoundException.class)
     public ResponseEntity<?> exceptionHandler(UserCategoryFoundException ex) {

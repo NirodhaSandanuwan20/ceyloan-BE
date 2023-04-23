@@ -35,7 +35,13 @@ public class UserCategoryServiceImpl implements UserCategoryService {
     }
 
     @Override
-    public List<UserCategory> getUserCategory(Long cid) {
-        return this.userCategoryRepository.findAllByUser_Id(cid);
+    public List<UserCategory> getUserCategory(Long userId) {
+        return this.userCategoryRepository.findAllByUser_Id(userId);
+    }
+
+    @Override
+    public void deleteSelectedUserCategory(Long userCategoryId) {
+
+        this.userCategoryRepository.deleteById(userCategoryId);
     }
 }
