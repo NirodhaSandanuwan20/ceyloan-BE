@@ -9,22 +9,42 @@ public class UserCategory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userCategoryId;
 
-    private Long qid;
+    private Long cid;
 
-    private boolean isPaid;
+    private String date;
+
+    private String cTitle;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-
+    private boolean isPaid;
     public UserCategory() {
     }
 
-    public UserCategory(Long userCategoryId, Long qid, boolean isPaid, User user) {
+    public UserCategory(Long userCategoryId, Long cid, String date, String cTitle, User user, boolean isPaid) {
         this.userCategoryId = userCategoryId;
-        this.qid = qid;
-        this.isPaid = isPaid;
+        this.cid = cid;
+        this.date = date;
+        this.cTitle = cTitle;
         this.user = user;
+        this.isPaid = isPaid;
+    }
+
+    public String getcTitle() {
+        return cTitle;
+    }
+
+    public void setcTitle(String cTitle) {
+        this.cTitle = cTitle;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public Long getUserCategoryId() {
@@ -35,12 +55,12 @@ public class UserCategory {
         this.userCategoryId = userCategoryId;
     }
 
-    public Long getQid() {
-        return qid;
+    public Long getCid() {
+        return cid;
     }
 
-    public void setQid(Long qid) {
-        this.qid = qid;
+    public void setQid(Long Qid) {
+        this.cid = cid;
     }
 
     public boolean isPaid() {

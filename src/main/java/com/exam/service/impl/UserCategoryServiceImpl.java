@@ -1,5 +1,7 @@
 package com.exam.service.impl;
 
+import com.exam.model.UserCategory;
+import com.exam.repo.UserCategoryRepository;
 import com.exam.repo.UserHistoryRepository;
 import com.exam.service.UserCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +12,16 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class UserCategoryServiceImpl implements UserCategoryService {
-    private UserHistoryRepository userHistoryRepository;
+    private UserCategoryRepository userCategoryRepository;
 
     @Autowired
-    public UserCategoryServiceImpl(UserHistoryRepository userHistoryRepository) {
-        this.userHistoryRepository = userHistoryRepository;
+    public UserCategoryServiceImpl(UserCategoryRepository userCategoryRepository) {
+        this.userCategoryRepository = userCategoryRepository;
     }
 
 
-
-
+    @Override
+    public UserCategory addUserCategory(UserCategory userCategory) {
+        return this.userCategoryRepository.save(userCategory);
+    }
 }

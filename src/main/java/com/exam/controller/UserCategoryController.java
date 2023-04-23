@@ -1,10 +1,11 @@
 package com.exam.controller;
 
+import com.exam.model.UserCategory;
+import com.exam.model.UserHistory;
 import com.exam.service.UserCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
@@ -16,4 +17,11 @@ public class UserCategoryController {
     public UserCategoryController(UserCategoryService userCategoryService) {
         this.userCategoryService = userCategoryService;
     }
+
+    @PostMapping("/")
+    public ResponseEntity<UserCategory> addUserCategory(@RequestBody UserCategory h) {
+        return ResponseEntity.ok(this.userCategoryService.addUserCategory(h));
+    }
+
+
 }
