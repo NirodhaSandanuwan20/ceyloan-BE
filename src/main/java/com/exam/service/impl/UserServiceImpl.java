@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
                 roleRepository.save(ur.getRole());
             }
             user.getUserRoles().addAll(userRoles);
-            user.setIsEnabled(false);
+            user.setEnabled(false);
             user.setOtp(verifyCode);
             return this.userRepository.save(user);
         } else {
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
         System.out.println(otp);
         if (selectedUser.get().getOtp().equals(otp)) {
             //verify
-            selectedUser.get().setIsEnabled(true);
+            selectedUser.get().setEnabled(true);
             User Activated = userRepository.save(selectedUser.get());
             return Activated;
         } else {

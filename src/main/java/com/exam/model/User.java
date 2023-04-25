@@ -29,9 +29,8 @@ public class User implements UserDetails {
 
     private String otp;
 
-    private Boolean isEnabled;
 
-    private boolean enabled = true;
+    private boolean enabled;
     private String profile;
 
     //user many roles
@@ -47,7 +46,7 @@ public class User implements UserDetails {
     @JsonIgnore
     private Set<UserCategory> myCategory = new LinkedHashSet<>();
 
-    public User(Long id, String username, String password, String firstName, String lastName, String forgot, String email, String phone, String otp, Boolean isEnabled, boolean enabled, String profile, Set<UserRole> userRoles, Set<UserHistory> history, Set<UserCategory> myCategory) {
+    public User(Long id, String username, String password, String firstName, String lastName, String forgot, String email, String phone, String otp, boolean enabled, String profile, Set<UserRole> userRoles, Set<UserHistory> history, Set<UserCategory> myCategory) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -57,7 +56,6 @@ public class User implements UserDetails {
         this.email = email;
         this.phone = phone;
         this.otp = otp;
-        this.isEnabled = isEnabled;
         this.enabled = enabled;
         this.profile = profile;
         this.userRoles = userRoles;
@@ -89,13 +87,7 @@ public class User implements UserDetails {
         this.forgot = forgot;
     }
 
-    public Boolean getEnabled() {
-        return isEnabled;
-    }
 
-    public void setEnabled(Boolean enabled) {
-        isEnabled = enabled;
-    }
 
 
     public String getOtp() {
@@ -106,13 +98,7 @@ public class User implements UserDetails {
         this.otp = otp;
     }
 
-    public Boolean getIsEnabled() {
-        return isEnabled;
-    }
 
-    public void setIsEnabled(Boolean enabled) {
-        isEnabled = enabled;
-    }
 
     public User() {
 
