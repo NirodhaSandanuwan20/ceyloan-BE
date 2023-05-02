@@ -12,7 +12,8 @@ import java.util.List;
 public interface UserHistoryService {
     public UserHistory saveHistory(UserHistory h);
 
-    List<UserHistory> getUserHistory(User user);
+    List<UserHistory> getUserHistory(User user, int pageNumber);
+    List<UserHistory> getUserSpecificHistory(String category,User user);
 
     List<UserHistory> getQuizAttempts(Long qid, int pageNumber, String searchText1, String searchText2);
 }

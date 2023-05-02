@@ -29,9 +29,18 @@ public class UserHistoryServiceImpl implements UserHistoryService {
     }
 
     @Override
-    public List<UserHistory> getUserHistory(User user) {
-        return this.userHistoryRepository.findByUser(user);
+    public List<UserHistory> getUserHistory(User user, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber,4);
+        return this.userHistoryRepository.findByUser(user,pageable);
     }
+
+    @Override
+    public List<UserHistory> getUserSpecificHistory(String category, User user) {
+        System.out.println(category);
+        System.out.println(user);
+        return this.userHistoryRepository.findByCategoryAndUser(category,user);
+    }
+
 
     @Override
     public List<UserHistory> getQuizAttempts(Long qid, int pageNumber, String searchText1, String searchText2) {

@@ -27,16 +27,25 @@ public class UserHistoryController {
     }
 
     @GetMapping("/{id}")
-    public List<UserHistory> getUserHistory(@PathVariable("id") Long id) {
+    public List<UserHistory> getUserHistory(@PathVariable("id") Long id, @RequestParam(defaultValue = "0") int pageNumber) {
         User user = new User();
         user.setId(id);
-        return this.historyService.getUserHistory(user);
+        return this.historyService.getUserHistory(user,pageNumber);
     }
 
-    @GetMapping("/")
+    /*@GetMapping("/")
     public List<UserHistory> getQuizAttempts(@RequestParam Long qid, @RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "") String searchText1, @RequestParam(defaultValue = "") String searchText2) {
 
         return this.historyService.getQuizAttempts(qid,pageNumber,searchText1,searchText2);
+    }*/
+
+    @GetMapping("/specific/")
+    public List<UserHistory> getUserSpecificHistory(@RequestParam String category, @RequestParam Long userId) {
+        System.out.println(category);
+        System.out.println(userId);
+        User user = new User();
+        user.setId(userId);
+        return this.historyService.getUserSpecificHistory(category,user);
     }
 
 }

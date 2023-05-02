@@ -14,8 +14,9 @@ import java.util.List;
 @Repository
 @EnableJpaRepositories
 public interface UserHistoryRepository extends JpaRepository<UserHistory, Long> {
-    List<UserHistory> findByUser(User user);
+    List<UserHistory> findByUser(User user,Pageable pageable);
     List<UserHistory> findByQid(Long qid, Pageable pageable);
+    List<UserHistory> findByCategoryAndUser(String category, User user);
 
     List<UserHistory> findByUser_UsernameContainingIgnoreCaseAndDateContainingIgnoreCase(
            String searchText1, String searchText2, Pageable pageable
