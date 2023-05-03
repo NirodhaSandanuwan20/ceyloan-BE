@@ -2,7 +2,6 @@ package com.exam.service.impl;
 
 import com.exam.model.User;
 import com.exam.model.UserHistory;
-import com.exam.model.exam.Quiz;
 import com.exam.repo.UserHistoryRepository;
 import com.exam.service.UserHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +34,11 @@ public class UserHistoryServiceImpl implements UserHistoryService {
     }
 
     @Override
-    public List<UserHistory> getUserSpecificHistory(String category, User user) {
+    public List<UserHistory> getUserSpecificHistory(String category, User user, int pageNumber) {
         System.out.println(category);
         System.out.println(user);
-        return this.userHistoryRepository.findByCategoryAndUser(category,user);
+        Pageable pageable = PageRequest.of(pageNumber,4);
+        return this.userHistoryRepository.findByCategoryAndUser(category,user,pageable);
     }
 
 
