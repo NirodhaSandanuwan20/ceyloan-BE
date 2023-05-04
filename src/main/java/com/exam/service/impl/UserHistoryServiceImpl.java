@@ -37,7 +37,7 @@ public class UserHistoryServiceImpl implements UserHistoryService {
     public List<UserHistory> getUserSpecificHistory(String category, User user, int pageNumber) {
         System.out.println(category);
         System.out.println(user);
-        Pageable pageable = PageRequest.of(pageNumber,4);
+        Pageable pageable = PageRequest.of(pageNumber,10);
         return this.userHistoryRepository.findByCategoryAndUser(category,user,pageable);
     }
 
