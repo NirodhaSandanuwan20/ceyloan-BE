@@ -1,5 +1,6 @@
 package com.exam.controller;
 
+import com.exam.helper.HashCodeGenerator;
 import com.exam.helper.UserFoundException;
 import com.exam.model.Role;
 import com.exam.model.User;
@@ -10,6 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +22,9 @@ import java.util.Set;
 @RequestMapping("/user")
 @CrossOrigin("*")
 public class UserController {
+
+    @Autowired
+    private HashCodeGenerator hashCodeGenerator;
 
     @Autowired
     private UserService userService;
@@ -50,15 +58,29 @@ public class UserController {
 
     }
 
+    @PostMapping("/hashcode")
+    public String hashcode(@RequestParam Long userID) {
+        String merahantID = "1223111";
+        String merchantSecret = "Mzk3NzIwNDQ1MDM1MzcyOTQ5MTgyMjI3NjU1MzE3MTYyMzQxMzU3NQ==";
+        String orderID = "subject";
+        double amount = 1000.00;
+        String currency = "LKR";
+        DecimalFormat df = new DecimalFormat("0.00");
+        String amountFormatted = df.format(amount);
+        String hash = getMd5(merahantID + orderID + amountFormatted + currency + getMd5(merchantSecret));
+        System.out.println("Generated Hash: " + hash);
+        return hash;
+    }
+
     @PostMapping(value = "/{otp}", params = "email")
     public User verifyUser(@PathVariable String otp, @RequestParam String email) throws Exception {
         User user = userService.verifyAccount(email, otp);
         return user;
     }
 
-    @PostMapping(value = "/{email}")
-    public User forgotPassword(@PathVariable String email) throws Exception {
-        User user = userService.forgotPassword(email);
+    @PostMapping(value = "/forgot")
+    public User forgotPassword(@RequestParam String otp, @RequestParam String mail) throws Exception {
+        User user = userService.forgotPassword(otp,mail);
         return user;
     }
 
@@ -88,5 +110,21 @@ public class UserController {
         return ResponseEntity.ok(ex.getMessage());
     }
 
+
+
+    private static String getMd5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            BigInteger no = new BigInteger(1, messageDigest);
+            String hashtext = no.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext.toUpperCase();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

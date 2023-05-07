@@ -124,14 +124,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User forgotPassword(String email) throws Exception {
-        Optional<User> selectedUser = this.userRepository.findByEmail(email);
+    public User forgotPassword(String otp ,String mail) throws Exception {
+        Optional<User> selectedUser = this.userRepository.findByEmail(mail);
         if (selectedUser.isEmpty()) throw new UserFoundException();
-        String username = selectedUser.get().getUsername();
-        String password = selectedUser.get().getForgot();
-        emailService.createEmail(email, "Verify User",
-                "<h1>Your Username is :" + username + "</h1><br><h1>Your Password is :" + password + "</h1>");
-        return selectedUser.get();
+        if (selectedUser.get().getOtp().equals(otp)) {
+            //verify
+            String username = selectedUser.get().getUsername();
+            String password = selectedUser.get().getForgot();
+            emailService.createEmail(mail, "Verify User",
+                    "<h1>Your Username is :" + username + "</h1><br><h3>Your Password is :" + password + "</h1>"+ "</h1><br><h1>If you need to change password please login first then you can change password</h3>");
+            return selectedUser.get();
+        } else {
+            throw new Exception();
+        }
+
     }
 }
 
