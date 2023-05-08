@@ -62,7 +62,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<Quiz> getActiveQuizzes(int pageNumber,String searchText1, String searchText2) {
-        Pageable pageable = PageRequest.of(pageNumber, 4);
+        Pageable pageable = PageRequest.of(pageNumber, 20);
         if (searchText1.equals("") && searchText2.equals("")) {
             return (List<Quiz>) this.quizRepository.findByActive(true,pageable);
         }else{
