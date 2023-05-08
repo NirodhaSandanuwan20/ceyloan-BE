@@ -22,7 +22,6 @@ public class User implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
-    private String forgot;
     @Column(unique = true)
     private String email;
     private String phone;
@@ -46,13 +45,12 @@ public class User implements UserDetails {
     @JsonIgnore
     private Set<UserCategory> myCategory = new LinkedHashSet<>();
 
-    public User(Long id, String username, String password, String firstName, String lastName, String forgot, String email, String phone, String otp, boolean enabled, String profile, Set<UserRole> userRoles, Set<UserHistory> history, Set<UserCategory> myCategory) {
+    public User(Long id, String username, String password, String firstName, String lastName, String email, String phone, String otp, boolean enabled, String profile, Set<UserRole> userRoles, Set<UserHistory> history, Set<UserCategory> myCategory) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.forgot = forgot;
         this.email = email;
         this.phone = phone;
         this.otp = otp;
@@ -77,14 +75,6 @@ public class User implements UserDetails {
 
     public void setHistory(Set<UserHistory> history) {
         this.history = history;
-    }
-
-    public String getForgot() {
-        return forgot;
-    }
-
-    public void setForgot(String forgot) {
-        this.forgot = forgot;
     }
 
 
