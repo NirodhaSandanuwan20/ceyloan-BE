@@ -89,6 +89,18 @@ public class UserController {
         return user;
     }
 
+    @PostMapping(value = "/change-mail")
+    public User changeEmailRequest(@RequestParam String oldEmail, @RequestParam String newEmail) throws Exception {
+        User user = userService.changeEmailRequest(oldEmail,newEmail);
+        return user;
+    }
+
+    @PostMapping(value = "/verify-newMail")
+    public User verifyNewMail(@RequestParam String otp, @RequestParam String newEmail, @RequestParam String oldEmail) throws Exception {
+        User user = userService.verifyNewMail(otp,newEmail,oldEmail);
+        return user;
+    }
+
     @GetMapping("/{username}")
     public User getUser(@PathVariable("username") String username) {
         return this.userService.getUser(username);

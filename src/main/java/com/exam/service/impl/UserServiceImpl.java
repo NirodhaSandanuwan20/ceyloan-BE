@@ -124,9 +124,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User changeEmailRequest(String oldEmail, String newEmail) {
+        Optional<User> selectedUser = this.userRepository.findByEmail(oldEmail);
+
+        String verifyCode = generator.createVerifyCode();
+        emailService.createEmail(newEmail, "Verify Your Email",
+                "<h1>Your Verification Code :" + verifyCode + "</h1>");
+        selectedUser.get().setOtp(verifyCode);
+        return this.userRepository.save(selectedUser.get());
+    }
+
+    @Override
+    public User verifyNewMail(String otp, String newEmail, String oldEmail) throws Exception {
+        Optional<User> selectedUser = userRepository.findByEmail(oldEmail);
+        if (selectedUser.isEmpty()) throw new UserFoundException();
+        System.out.println(otp);
+        if (selectedUser.get().getOtp().equals(otp)) {
+            //verify
+            selectedUser.get().setEmail(newEmail);
+            User Activated = userRepository.save(selectedUser.get());
+            return Activated;
+        } else {
+            throw new Exception();
+        }
+    }
+
+    @Override
     public User forgotPassword(String otp,String newPassword,String mail) throws Exception {
         Optional<User> selectedUser = this.userRepository.findByEmail(mail);
-        if (selectedUser.isEmpty()) throw new UserFoundException();
         if (selectedUser.get().getOtp().equals(otp)) {
             //change password
             selectedUser.get().setPassword(this.bCryptPasswordEncoder.encode(newPassword));

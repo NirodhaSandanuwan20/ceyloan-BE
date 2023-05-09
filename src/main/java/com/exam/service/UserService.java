@@ -20,6 +20,9 @@ public interface UserService {
 
     public User verifyAccount(String email, String otp) throws Exception;
     public User resendMail(String email);
+    public User changeEmailRequest(String oldEmail,String newEmail);
+
+    public User verifyNewMail(String otp, String newEmail, String oldEmail) throws Exception;
 
     User forgotPassword(String otp ,String newPassword,String mail) throws Exception;
 }
