@@ -16,6 +16,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -104,6 +105,10 @@ public class UserController {
     @GetMapping("/{username}")
     public User getUser(@PathVariable("username") String username) {
         return this.userService.getUser(username);
+    }
+    @GetMapping("/id/{userId}")
+    public Optional<User> getUserByID(@PathVariable("userId") Long userID) {
+        return this.userService.getUserById(userID);
     }
 
     //delete the user by id
