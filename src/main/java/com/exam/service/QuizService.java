@@ -24,6 +24,6 @@ public interface QuizService {
 
     public List<Quiz> getActiveQuizzes(int pageNumber, String searchText1,String searchText2);
 
-    public List<Quiz> getActiveQuizzesOfCategory(Category c);
+    public List<Quiz> getActiveQuizzesOfCategory(Category c,int pageNumber);
 
 }

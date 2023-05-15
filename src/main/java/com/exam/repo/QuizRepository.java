@@ -17,7 +17,7 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
 
     public List<Quiz> findByActive(Boolean b, Pageable pageable);
 
-    public List<Quiz> findByCategoryAndActive(Category c, Boolean b);
+    public List<Quiz> findByCategoryTitleAndActive(String c, Boolean b, Pageable pageable);
 
     public List<Quiz> findByTitleContainingIgnoreCaseAndCategory_TitleContainingIgnoreCaseAndActive(
             String key1, String key2,Boolean b, Pageable pageable
