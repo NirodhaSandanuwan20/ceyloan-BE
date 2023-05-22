@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
         String emailBody = new String("");
 
-        Optional<User> local = this.userRepository.findByEmail(user.getEmail());
+        Optional<User> local = this.userRepository.findByEmailAndEnabled(user.getEmail(),true);
         if(!local.isEmpty()){
             throw new UserFoundException();
         }
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User verifyAccount(String email, String otp) throws Exception {
-        Optional<User> selectedUser = userRepository.findByEmail(email);
+        Optional<User> selectedUser = userRepository.findByEmailAndEnabled(email,false);
         if (selectedUser.isEmpty()) throw new UserFoundException();
         System.out.println(otp);
         if (selectedUser.get().getOtp().equals(otp)) {
@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User resendMail(String email) {
-        Optional<User> selectedUser = this.userRepository.findByEmail(email);
+        Optional<User> selectedUser = this.userRepository.findByEmailAndEnabled(email,true);
 
         String verifyCode = generator.createVerifyCode();
         emailService.createEmail(email, "Verify User",
@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User changeEmailRequest(String oldEmail, String newEmail) {
-        Optional<User> selectedUser = this.userRepository.findByEmail(oldEmail);
+        Optional<User> selectedUser = this.userRepository.findByEmailAndEnabled(oldEmail,true);
 
         String verifyCode = generator.createVerifyCode();
         emailService.createEmail(newEmail, "Verify Your Email",
@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User verifyNewMail(String otp, String newEmail, String oldEmail) throws Exception {
-        Optional<User> selectedUser = userRepository.findByEmail(oldEmail);
+        Optional<User> selectedUser = userRepository.findByEmailAndEnabled(oldEmail,true);
         if (selectedUser.isEmpty()) throw new UserFoundException();
         System.out.println(otp);
         if (selectedUser.get().getOtp().equals(otp)) {
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User forgotPassword(String otp,String newPassword,String mail) throws Exception {
-        Optional<User> selectedUser = this.userRepository.findByEmail(mail);
+        Optional<User> selectedUser = this.userRepository.findByEmailAndEnabled(mail,true);
         if (selectedUser.get().getOtp().equals(otp)) {
             //change password
             selectedUser.get().setPassword(this.bCryptPasswordEncoder.encode(newPassword));

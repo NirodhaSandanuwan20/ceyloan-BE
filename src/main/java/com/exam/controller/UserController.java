@@ -39,7 +39,7 @@ public class UserController {
 
 
         user.setProfile("default.png");
-        user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+        /*user.setPassword(this.bCryptPasswordEncoder.encode("abcasc"));*/
 
         Set<UserRole> roles = new HashSet<>();
         Role role = new Role();
@@ -58,19 +58,6 @@ public class UserController {
 
     }
 
-    @PostMapping("/hashcode")
-    public String hashcode(@RequestParam Long userID) {
-        String merahantID = "1223111";
-        String merchantSecret = "Mzk3NzIwNDQ1MDM1MzcyOTQ5MTgyMjI3NjU1MzE3MTYyMzQxMzU3NQ==";
-        String orderID = "subject";
-        double amount = 1000.00;
-        String currency = "LKR";
-        DecimalFormat df = new DecimalFormat("0.00");
-        String amountFormatted = df.format(amount);
-        String hash = getMd5(merahantID + orderID + amountFormatted + currency + getMd5(merchantSecret));
-        System.out.println("Generated Hash: " + hash);
-        return hash;
-    }
 
     @PostMapping(value = "/{otp}", params = "email")
     public User verifyUser(@PathVariable String otp, @RequestParam String email) throws Exception {
@@ -128,19 +115,6 @@ public class UserController {
 
 
 
-    private static String getMd5(String input) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] messageDigest = md.digest(input.getBytes());
-            BigInteger no = new BigInteger(1, messageDigest);
-            String hashtext = no.toString(16);
-            while (hashtext.length() < 32) {
-                hashtext = "0" + hashtext;
-            }
-            return hashtext.toUpperCase();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
 }

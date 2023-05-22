@@ -40,7 +40,7 @@ public class AuthenticateController {
 
         try {
 
-            authenticate(jwtRequest.getUsername(), jwtRequest.getPassword());
+            authenticate(jwtRequest.getUsername(),jwtRequest.getPassword());
 
 
         } catch (UserNotFoundException e) {
