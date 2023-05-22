@@ -26,8 +26,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Set<Category> getCategories() {
-        return new LinkedHashSet<>(this.categoryRepository.findAll());
+    public Set<Category> getCategories(String searchText) {
+        System.out.println(searchText);
+        return new LinkedHashSet<>(this.categoryRepository.findByTitleContainingIgnoreCase(searchText));
     }
 
     @Override

@@ -30,8 +30,9 @@ public class CategoryController {
 
     //get all categories
     @GetMapping("/")
-    public ResponseEntity<?> getCategories() {
-        return ResponseEntity.ok(this.categoryService.getCategories());
+    public ResponseEntity<?> getCategories(@RequestParam(defaultValue = "") String searchText) {
+        System.out.println(searchText);
+        return ResponseEntity.ok(this.categoryService.getCategories(searchText));
     }
 
     //update category

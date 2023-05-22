@@ -9,7 +9,7 @@ public interface CategoryService {
 
     public Category updateCategory(Category category);
 
-    public Set<Category> getCategories();
+    public Set<Category> getCategories(String searchText);
 
     public Category getCategory(Long categoryId);
 
