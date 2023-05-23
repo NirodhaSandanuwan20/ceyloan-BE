@@ -59,14 +59,19 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new ServerErorrException();
         }*/
-
         Optional<User> local = this.userRepository.findByEmailAndEnabled(user.getEmail(), true);
         if (!local.isEmpty()) {
             throw new UserFoundException();
         }
+
+        if(!this.userRepository.findByEmailAndEnabled(user.getEmail(), false).isEmpty()){
+            System.out.println(this.userRepository.findByEmailAndEnabled(user.getEmail(), false).isEmpty());
+            System.out.println("eka pra verify karala nthi aula");
+            System.out.println("csacsc");
+        }
         String verifyCode = generator.createVerifyCode();
 
-        String emailBody = new String("<style>\n" +
+        String emailBo = "<style>\n" +
                 "*, html, body {\n" +
                 "  margin: 0;\n" +
                 "  padding: 0;\n" +
@@ -145,13 +150,16 @@ public class UserServiceImpl implements UserService {
                 "}\n" +
                 "</style>\n" +
                 "\n" +
-                "<div class=\"container\">\n" +
+                "<div style=' margin: 0;\n" +
+                "  padding: 0;\n" +
+                "  box-sizing: border-box;\n" +
+                "  font-family: \"Roboto\", sans-serif;' class=\"container\">\n" +
                 "  <div class=\"box_container\">\n" +
-                "    <h1>SalesFlow</h1>\n" +
-                "    <h2>Verify Account For <b>SalesFlow</b></h2>\n" +
-                "    <p>Verify salesflow extension account to get started. Enter this otp when requested and get started with our extension. Thanks for choosing <b>SalesFlow</b></p>\n" +
+                "    <h1>Ceylon Papers Hub</h1>\n" +
+                "    <h2>Verify Account For <b>Ceylon Papers Hub</b></h2>\n" +
+                "    <p>Verify account to get started. Enter this otp and verify now. Thanks for choosing <b>Ceylon Papers Hub</b></p>\n" +
                 "    <div class=\"otp\">\n" +
-                "      <h1>${verifyCode}</h1>\n" +
+                "      <h1>" + verifyCode + "</h1>\n" +
                 "    </div>\n" +
                 "    <div class=\"disclaimer\">\n" +
                 "      <small>\n" +
@@ -159,14 +167,14 @@ public class UserServiceImpl implements UserService {
                 "      </small>\n" +
                 "    </div>\n" +
                 "    <footer>\n" +
-                "      <section>Made with ❤️ by MCSAM</section>\n" +
-                "      <section>Copyright of MCSAM &copy; 2023</section>\n" +
+                "      <section></section>\n" +
+                "      <section>Copyright of CPH &copy; 2023</section>\n" +
                 "    </footer>\n" +
                 "  </div>\n" +
-                "</div>");
+                "</div>";
 
         if (emailService.createEmail(user.getEmail(), "Regarding Login Verification",
-                emailBody)) {
+                emailBo)) {
             //user create
             for (UserRole ur : userRoles) {
                 roleRepository.save(ur.getRole());
@@ -356,7 +364,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User forgotPassword(String otp, String newPassword, String mail) throws Exception {
 
-        String emailB = "<div class=\"container\">\n" +
+       /* String emailBc = "<div class=\"container\">\n" +
                 "  <div class=\"box_container\">\n" +
                 "    <h1>We Are Ceylon Papers Hub</h1>\n" +
                 "    <h2>Your Account Password Has Been Changed Success</h2>\n" +
@@ -372,15 +380,15 @@ public class UserServiceImpl implements UserService {
                 "      <section>Copyright of CPH &copy; 2023</section>\n" +
                 "    </footer>\n" +
                 "  </div>\n" +
-                "</div>";
+                "</div>";*/
 
         Optional<User> selectedUser = this.userRepository.findByEmailAndEnabled(mail, true);
         if (selectedUser.get().getOtp().equals(otp)) {
             //change password
             selectedUser.get().setPassword(this.bCryptPasswordEncoder.encode(newPassword));
             this.userRepository.save(selectedUser.get());
-            emailService.createEmail(mail, "Verify User",
-                    emailB);
+            /*emailService.createEmail(mail, "Verify User",
+                    emailBc);*/
             return selectedUser.get();
         } else {
             throw new Exception();

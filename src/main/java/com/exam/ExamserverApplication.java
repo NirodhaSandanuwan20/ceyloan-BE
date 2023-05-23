@@ -37,7 +37,7 @@ public class ExamserverApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        /*try {
+     /*   try {
 
 
             System.out.println("starting code");
@@ -50,6 +50,7 @@ public class ExamserverApplication implements CommandLineRunner {
             user.setPassword(this.bCryptPasswordEncoder.encode("abc"));
             user.setEmail("abc@gmail.com");
             user.setProfile("default.png");
+            user.setEnabled(true);
 
             Role role1 = new Role();
             role1.setRoleId(44L);

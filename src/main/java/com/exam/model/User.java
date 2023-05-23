@@ -2,6 +2,7 @@ package com.exam.model;
 
 import com.exam.model.exam.Quiz;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import net.bytebuddy.implementation.bind.annotation.Default;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,12 +19,12 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    @Column(unique = true)
     private String username;
     private String password;
     private String firstName;
     private String lastName;
-
+    @Column(unique = true)
     private String email;
     private String phone;
 
