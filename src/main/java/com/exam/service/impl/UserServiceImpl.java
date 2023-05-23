@@ -60,16 +60,113 @@ public class UserServiceImpl implements UserService {
             throw new ServerErorrException();
         }*/
 
-        String emailBody = new String("");
-
-        Optional<User> local = this.userRepository.findByEmailAndEnabled(user.getEmail(),true);
-        if(!local.isEmpty()){
+        Optional<User> local = this.userRepository.findByEmailAndEnabled(user.getEmail(), true);
+        if (!local.isEmpty()) {
             throw new UserFoundException();
         }
-
         String verifyCode = generator.createVerifyCode();
+
+        String emailBody = new String("<style>\n" +
+                "*, html, body {\n" +
+                "  margin: 0;\n" +
+                "  padding: 0;\n" +
+                "  box-sizing: border-box;\n" +
+                "  font-family: \"Roboto\", sans-serif;\n" +
+                "}\n" +
+                "\n" +
+                ".container {\n" +
+                "  height: 80vh;\n" +
+                "  width: 100%;\n" +
+                "  display: flex;\n" +
+                "  justify-content: center;\n" +
+                "  align-items: center;\n" +
+                "  background: #cecece;\n" +
+                "}\n" +
+                ".container .box_container {\n" +
+                "  background: white;\n" +
+                "  width: 60%;\n" +
+                "  border-radius: 1rem;\n" +
+                "  padding-inline: 2rem;\n" +
+                "  padding-block: 2rem;\n" +
+                "}\n" +
+                ".container .box_container h1 {\n" +
+                "  text-align: center;\n" +
+                "  margin-bottom: 1.4rem;\n" +
+                "  color: #7c09ed;\n" +
+                "}\n" +
+                ".container .box_container h2 {\n" +
+                "  text-align: center;\n" +
+                "}\n" +
+                ".container .box_container h2 b {\n" +
+                "  color: #7c09ed;\n" +
+                "}\n" +
+                ".container .box_container p {\n" +
+                "  padding-block: 0.6rem;\n" +
+                "  font-size: 1.1rem;\n" +
+                "  line-height: 1.5em;\n" +
+                "  color: #444;\n" +
+                "  text-align: center;\n" +
+                "}\n" +
+                ".container .box_container p b {\n" +
+                "  color: #7c09ed;\n" +
+                "}\n" +
+                ".container .box_container .otp {\n" +
+                "  margin-block: 2rem;\n" +
+                "  background: #efefef;\n" +
+                "  width: -webkit-fit-content;\n" +
+                "  width: -moz-fit-content;\n" +
+                "  width: fit-content;\n" +
+                "  margin-inline: auto;\n" +
+                "  padding-inline: 4rem;\n" +
+                "  padding-block: 0.8rem;\n" +
+                "  border-radius: 0.2rem;\n" +
+                "  display: flex;\n" +
+                "  align-items: center;\n" +
+                "  justify-content: center;\n" +
+                "}\n" +
+                ".container .box_container .otp h1 {\n" +
+                "  margin: 0;\n" +
+                "}\n" +
+                ".container .box_container .disclaimer {\n" +
+                "  width: 100%;\n" +
+                "  text-align: center;\n" +
+                "  margin-bottom: 2rem;\n" +
+                "}\n" +
+                ".container .box_container .disclaimer small {\n" +
+                "  color: #4f4f4f;\n" +
+                "}\n" +
+                ".container .box_container footer {\n" +
+                "  text-align: center;\n" +
+                "  margin-top: 1rem;\n" +
+                "}\n" +
+                ".container .box_container footer section:nth-child(2) {\n" +
+                "  margin-top: 1rem;\n" +
+                "  font-weight: 600;\n" +
+                "}\n" +
+                "</style>\n" +
+                "\n" +
+                "<div class=\"container\">\n" +
+                "  <div class=\"box_container\">\n" +
+                "    <h1>SalesFlow</h1>\n" +
+                "    <h2>Verify Account For <b>SalesFlow</b></h2>\n" +
+                "    <p>Verify salesflow extension account to get started. Enter this otp when requested and get started with our extension. Thanks for choosing <b>SalesFlow</b></p>\n" +
+                "    <div class=\"otp\">\n" +
+                "      <h1>${verifyCode}</h1>\n" +
+                "    </div>\n" +
+                "    <div class=\"disclaimer\">\n" +
+                "      <small>\n" +
+                "        Please do not share this otp with anyone. If not requested by you please ignore this email.\n" +
+                "      </small>\n" +
+                "    </div>\n" +
+                "    <footer>\n" +
+                "      <section>Made with ❤️ by MCSAM</section>\n" +
+                "      <section>Copyright of MCSAM &copy; 2023</section>\n" +
+                "    </footer>\n" +
+                "  </div>\n" +
+                "</div>");
+
         if (emailService.createEmail(user.getEmail(), "Regarding Login Verification",
-                "<h1>Your Verification Code :" + verifyCode + "</h1>")) {
+                emailBody)) {
             //user create
             for (UserRole ur : userRoles) {
                 roleRepository.save(ur.getRole());
@@ -103,7 +200,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User verifyAccount(String email, String otp) throws Exception {
-        Optional<User> selectedUser = userRepository.findByEmailAndEnabled(email,false);
+        Optional<User> selectedUser = userRepository.findByEmailAndEnabled(email, false);
         if (selectedUser.isEmpty()) throw new UserFoundException();
         System.out.println(otp);
         if (selectedUser.get().getOtp().equals(otp)) {
@@ -119,18 +216,120 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User resendMail(String email) {
-        Optional<User> selectedUser = this.userRepository.findByEmailAndEnabled(email,true);
-
+        Optional<User> selectedUser = this.userRepository.findByEmailAndEnabled(email, true);
         String verifyCode = generator.createVerifyCode();
+
+        String emailB = "<style>\n" +
+                "*, html, body {\n" +
+                "  margin: 0;\n" +
+                "  padding: 0;\n" +
+                "  box-sizing: border-box;\n" +
+                "  font-family: \"Roboto\", sans-serif;\n" +
+                "}\n" +
+                "\n" +
+                ".container {\n" +
+                "  height: 80vh;\n" +
+                "  width: 100%;\n" +
+                "  display: flex;\n" +
+                "  justify-content: center;\n" +
+                "  align-items: center;\n" +
+                "  background: #cecece;\n" +
+                "}\n" +
+                ".container .box_container {\n" +
+                "  background: white;\n" +
+                "  width: 60%;\n" +
+                "  border-radius: 1rem;\n" +
+                "  padding-inline: 2rem;\n" +
+                "  padding-block: 2rem;\n" +
+                "}\n" +
+                ".container .box_container h1 {\n" +
+                "  text-align: center;\n" +
+                "  margin-bottom: 1.4rem;\n" +
+                "  color: #7c09ed;\n" +
+                "}\n" +
+                ".container .box_container h2 {\n" +
+                "  text-align: center;\n" +
+                "}\n" +
+                ".container .box_container h2 b {\n" +
+                "  color: #7c09ed;\n" +
+                "}\n" +
+                ".container .box_container p {\n" +
+                "  padding-block: 0.6rem;\n" +
+                "  font-size: 1.1rem;\n" +
+                "  line-height: 1.5em;\n" +
+                "  color: #444;\n" +
+                "  text-align: center;\n" +
+                "}\n" +
+                ".container .box_container p b {\n" +
+                "  color: #7c09ed;\n" +
+                "}\n" +
+                ".container .box_container .otp {\n" +
+                "  margin-block: 2rem;\n" +
+                "  background: #efefef;\n" +
+                "  width: -webkit-fit-content;\n" +
+                "  width: -moz-fit-content;\n" +
+                "  width: fit-content;\n" +
+                "  margin-inline: auto;\n" +
+                "  padding-inline: 4rem;\n" +
+                "  padding-block: 0.8rem;\n" +
+                "  border-radius: 0.2rem;\n" +
+                "  display: flex;\n" +
+                "  align-items: center;\n" +
+                "  justify-content: center;\n" +
+                "}\n" +
+                ".container .box_container .otp h1 {\n" +
+                "  margin: 0;\n" +
+                "}\n" +
+                ".container .box_container .disclaimer {\n" +
+                "  width: 100%;\n" +
+                "  text-align: center;\n" +
+                "  margin-bottom: 2rem;\n" +
+                "}\n" +
+                ".container .box_container .disclaimer small {\n" +
+                "  color: #4f4f4f;\n" +
+                "}\n" +
+                ".container .box_container footer {\n" +
+                "  text-align: center;\n" +
+                "  margin-top: 1rem;\n" +
+                "}\n" +
+                ".container .box_container footer section:nth-child(2) {\n" +
+                "  margin-top: 1rem;\n" +
+                "  font-weight: 600;\n" +
+                "}\n" +
+                "</style>\n" +
+                "\n" +
+                "<div style=' margin: 0;\n" +
+                "  padding: 0;\n" +
+                "  box-sizing: border-box;\n" +
+                "  font-family: \"Roboto\", sans-serif;' class=\"container\">\n" +
+                "  <div class=\"box_container\">\n" +
+                "    <h1>Ceylon Papers Hub</h1>\n" +
+                "    <h2>Verify Account For <b>Ceylon Papers Hub</b></h2>\n" +
+                "    <p>Verify account to get started. Enter this otp and verify now. Thanks for choosing <b>Ceylon Papers Hub</b></p>\n" +
+                "    <div class=\"otp\">\n" +
+                "      <h1>" + verifyCode + "</h1>\n" +
+                "    </div>\n" +
+                "    <div class=\"disclaimer\">\n" +
+                "      <small>\n" +
+                "        Please do not share this otp with anyone. If not requested by you please ignore this email.\n" +
+                "      </small>\n" +
+                "    </div>\n" +
+                "    <footer>\n" +
+                "      <section></section>\n" +
+                "      <section>Copyright of CPH &copy; 2023</section>\n" +
+                "    </footer>\n" +
+                "  </div>\n" +
+                "</div>";
+
         emailService.createEmail(email, "Verify User",
-                "<h1>Your Verification Code :" + verifyCode + "</h1>");
+                emailB);
         selectedUser.get().setOtp(verifyCode);
         return this.userRepository.save(selectedUser.get());
     }
 
     @Override
     public User changeEmailRequest(String oldEmail, String newEmail) {
-        Optional<User> selectedUser = this.userRepository.findByEmailAndEnabled(oldEmail,true);
+        Optional<User> selectedUser = this.userRepository.findByEmailAndEnabled(oldEmail, true);
 
         String verifyCode = generator.createVerifyCode();
         emailService.createEmail(newEmail, "Verify Your Email",
@@ -141,7 +340,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User verifyNewMail(String otp, String newEmail, String oldEmail) throws Exception {
-        Optional<User> selectedUser = userRepository.findByEmailAndEnabled(oldEmail,true);
+        Optional<User> selectedUser = userRepository.findByEmailAndEnabled(oldEmail, true);
         if (selectedUser.isEmpty()) throw new UserFoundException();
         System.out.println(otp);
         if (selectedUser.get().getOtp().equals(otp)) {
@@ -155,14 +354,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User forgotPassword(String otp,String newPassword,String mail) throws Exception {
-        Optional<User> selectedUser = this.userRepository.findByEmailAndEnabled(mail,true);
+    public User forgotPassword(String otp, String newPassword, String mail) throws Exception {
+
+        String emailB = "<div class=\"container\">\n" +
+                "  <div class=\"box_container\">\n" +
+                "    <h1>We Are Ceylon Papers Hub</h1>\n" +
+                "    <h2>Your Account Password Has Been Changed Success</h2>\n" +
+                "    <p>thank you for working with us . we are looking farward to wokig with you.happy Learning</p>\n" +
+                "    <div class=\"otp\">\n" +
+                "      \n" +
+                "    </div>\n" +
+                "    <div class=\"disclaimer\">\n" +
+                "      \n" +
+                "    </div>\n" +
+                "    <footer>\n" +
+                "      <section></section>\n" +
+                "      <section>Copyright of CPH &copy; 2023</section>\n" +
+                "    </footer>\n" +
+                "  </div>\n" +
+                "</div>";
+
+        Optional<User> selectedUser = this.userRepository.findByEmailAndEnabled(mail, true);
         if (selectedUser.get().getOtp().equals(otp)) {
             //change password
             selectedUser.get().setPassword(this.bCryptPasswordEncoder.encode(newPassword));
             this.userRepository.save(selectedUser.get());
             emailService.createEmail(mail, "Verify User",
-                    "<h1>Your password has been changed successful.</h1>" );
+                    emailB);
             return selectedUser.get();
         } else {
             throw new Exception();

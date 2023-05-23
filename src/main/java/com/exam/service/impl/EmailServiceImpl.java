@@ -27,7 +27,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public boolean createEmail(String to, String subject, String body) {
-        /*SimpleMailMessage message = new SimpleMailMessage();
+       /* SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromEmail);
         message.setTo(to);
         message.setSubject(subject);
