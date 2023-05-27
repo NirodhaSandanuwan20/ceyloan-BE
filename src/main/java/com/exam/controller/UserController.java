@@ -35,7 +35,7 @@ public class UserController {
 
 
     @PostMapping("/")
-    public User createUser(@RequestBody User user) throws Exception {
+    public boolean createUser(@RequestBody User user) throws Exception {
 
 
         user.setProfile("default.png");
