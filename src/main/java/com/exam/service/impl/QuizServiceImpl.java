@@ -74,7 +74,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<Quiz> getActiveQuizzesOfCategory(Category c,int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber, 4);
+        Pageable pageable = PageRequest.of(pageNumber, 12);
         return this.quizRepository.findByCategoryTitleAndActive(c.getTitle(), true,pageable);
     }
 
