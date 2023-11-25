@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.net.http.HttpClient;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -59,6 +60,18 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new ServerErorrException();
         }*/
+
+
+        /* //intially gnnko addmin case ek nisa mhm arn db update krl gnn lede blmu api
+        for (UserRole ur : userRoles) {
+            roleRepository.save(ur.getRole());
+        }
+        this.userRepository.save(user);
+        return true;*/
+
+        System.out.println("userIMPL");
+        System.out.println(user);
+        System.out.println(userRoles);
         Optional<User> local = this.userRepository.findByEmail(user.getEmail());
 
         if(local.isEmpty() || !local.get().isEnabled()){
@@ -192,6 +205,7 @@ public class UserServiceImpl implements UserService {
         }
 
         return false;
+
     }
 
     //getting user by username

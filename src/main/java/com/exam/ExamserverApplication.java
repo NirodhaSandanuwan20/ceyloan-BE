@@ -37,7 +37,7 @@ public class ExamserverApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-     /*   try {
+        /*try {
 
 
             System.out.println("starting code");
@@ -48,7 +48,7 @@ public class ExamserverApplication implements CommandLineRunner {
             user.setLastName("Sandanuwan");
             user.setUsername("nirodha123");
             user.setPassword(this.bCryptPasswordEncoder.encode("abc"));
-            user.setEmail("abc@gmail.com");
+            user.setEmail("nirodhasandanuwan2002@gmail.com");
             user.setProfile("default.png");
             user.setEnabled(true);
 
@@ -56,7 +56,7 @@ public class ExamserverApplication implements CommandLineRunner {
             role1.setRoleId(44L);
             role1.setRoleName("ADMIN");
 
-            HashSet userRoleSet = new HashSet();
+            HashSet<UserRole> userRoleSet = new HashSet();
             UserRole userRole = new UserRole();
 
             userRole.setRole(role1);
@@ -65,8 +65,8 @@ public class ExamserverApplication implements CommandLineRunner {
 
             userRoleSet.add(userRole);
 
-            User user1 = this.userService.createUser(user, userRoleSet);
-            System.out.println(user1.getUsername());
+            boolean user1 = this.userService.createUser(user, userRoleSet);
+            System.out.println(user1);
 
 
         } catch (UserFoundException e) {
