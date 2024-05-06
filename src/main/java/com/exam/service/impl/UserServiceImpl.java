@@ -62,12 +62,12 @@ public class UserServiceImpl implements UserService {
         }*/
 
 
-        /* //intially gnnko addmin case ek nisa mhm arn db update krl gnn lede blmu api
+         //intially gnnko addmin case ek nisa mhm arn db update krl gnn lede blmu api
         for (UserRole ur : userRoles) {
             roleRepository.save(ur.getRole());
         }
+        user.getUserRoles().addAll(userRoles);
         this.userRepository.save(user);
-        return true;*/
 
         System.out.println("userIMPL");
         System.out.println(user);

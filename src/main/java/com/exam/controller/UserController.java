@@ -33,6 +33,10 @@ public class UserController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @GetMapping("/test")
+    public String test(){
+        return "WELL COME TO API OF CEYLON PAPERS HUB";
+    }
 
     @PostMapping("/")
     public boolean createUser(@RequestBody User user) throws Exception {

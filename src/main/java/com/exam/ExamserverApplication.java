@@ -6,7 +6,6 @@ import com.exam.model.User;
 import com.exam.model.UserRole;
 import com.exam.repo.QuizRepository;
 import com.exam.service.UserService;
-import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashSet;
+import java.util.Set;
 
 @SpringBootApplication
 public class ExamserverApplication implements CommandLineRunner {
@@ -37,7 +37,11 @@ public class ExamserverApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        /*try {
+        try {
+
+
+
+
 
 
             System.out.println("starting code");
@@ -56,7 +60,8 @@ public class ExamserverApplication implements CommandLineRunner {
             role1.setRoleId(44L);
             role1.setRoleName("ADMIN");
 
-            HashSet<UserRole> userRoleSet = new HashSet();
+
+            Set<UserRole> userRoleSet = new HashSet<>();
             UserRole userRole = new UserRole();
 
             userRole.setRole(role1);
@@ -71,6 +76,6 @@ public class ExamserverApplication implements CommandLineRunner {
 
         } catch (UserFoundException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }
