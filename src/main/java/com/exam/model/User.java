@@ -45,6 +45,10 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
+    private Set<UserPayments> userPayments = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<UserCategory> myCategory = new LinkedHashSet<>();
 
     public User(Long id, String username, String password, String firstName, String lastName, String email, String phone, String otp, boolean enabled, String profile, Set<UserRole> userRoles, Set<UserHistory> history, Set<UserCategory> myCategory) {

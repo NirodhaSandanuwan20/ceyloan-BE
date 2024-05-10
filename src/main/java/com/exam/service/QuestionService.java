@@ -9,18 +9,18 @@ import java.util.Set;
 
 public interface QuestionService {
 
-    public Question addQuestion(Question question);
+    Question addQuestion(Question question);
 
-    public Question updateQuestion(Question question);
+    Question updateQuestion(Question question);
 
-    public Set<Question> getQuestions();
+    Set<Question> getQuestions();
 
-    public Question getQuestion(Long questionId);
+    Question getQuestion(Long questionId);
 
-    public List<Question> getQuestionsOfQuiz(Quiz quiz, int pageNumber);
+    List<Question> getQuestionsOfQuiz(Quiz quiz, int pageNumber);
 
-    public void deleteQuestion(Long quesId);
+    void deleteQuestion(Long quesId);
 
-    public Question get(Long questionsId);
+    Question get(Long questionsId);
 
 }
