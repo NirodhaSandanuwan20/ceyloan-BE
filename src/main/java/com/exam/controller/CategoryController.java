@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/category")
-@CrossOrigin()
 public class CategoryController {
 
     @Autowired

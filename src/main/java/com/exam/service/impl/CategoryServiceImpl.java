@@ -1,12 +1,15 @@
 package com.exam.service.impl;
 
+import com.exam.model.UserCategory;
 import com.exam.model.exam.Category;
 import com.exam.repo.CategoryRepository;
+import com.exam.repo.UserCategoryRepository;
 import com.exam.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -14,6 +17,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private UserCategoryRepository userCategoryRepository;
 
     @Override
     public Category addCategory(Category category) {
@@ -41,5 +47,9 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = new Category();
         category.setCid(categoryId);
         this.categoryRepository.delete(category);
+        //need to be fixed
+        /*this.userCategoryRepository.findAllByCid(categoryId);
+        List<UserCategory> list =  this.userCategoryRepository.findAllByCid(categoryId);
+        System.out.println(list);*/
     }
 }

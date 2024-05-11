@@ -11,8 +11,14 @@ import java.util.Optional;
 @Repository
 @EnableJpaRepositories
 public interface UserCategoryRepository extends JpaRepository<UserCategory, Long> {
+
     List<UserCategory> findAllByUser_Id(Long userId);
+
     Optional<UserCategory> findByCidAndUser_Id(Long cid,Long userId);
 
     void deleteById(Long userCategoryId);
+
+    void deleteByCid(Long cid);
+
+    List<UserCategory> findAllByCid(Long categoryId);
 }
