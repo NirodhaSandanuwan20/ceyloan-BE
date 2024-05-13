@@ -24,12 +24,26 @@ public class UserCategoryController {
 
     @PostMapping("/")
     public ResponseEntity<UserCategory> addUserCategory(@RequestBody UserCategory c) throws UserCategoryFoundException {
+        System.out.println("ebd");
+        System.out.println(c.getUser().getEmail());
+        System.out.println(c.getUser().getId());
         return ResponseEntity.ok(this.userCategoryService.addUserCategory(c));
     }
-
+//pending and paid
     @GetMapping("/{userId}")
     public List<UserCategory> getUserCategory(@PathVariable Long userId) {
         return this.userCategoryService.getUserCategory(userId);
+    }
+//paid
+    @GetMapping(value="/", params = "userId")
+    public List<UserCategory> getPaidUserCategory(@RequestParam Long userId) {
+        System.out.println("ew c");
+        return this.userCategoryService.getPaidUserCategory(userId);
+    }
+
+    @GetMapping(value="/all")
+    public List<UserCategory> getPaidUserCategory(@RequestParam(required = false) Long cid, @RequestParam(defaultValue = "false") Boolean b, @RequestParam(defaultValue = "") String email) {
+        return this.userCategoryService.getAllCategory(cid,b,email);
     }
 
     @DeleteMapping("/")

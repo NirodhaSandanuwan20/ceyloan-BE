@@ -14,6 +14,10 @@ public interface UserCategoryRepository extends JpaRepository<UserCategory, Long
 
     List<UserCategory> findAllByUser_Id(Long userId);
 
+    List<UserCategory> findByUserIdAndIsPaidTrue(Long userId);
+
+    List<UserCategory> findByUserIdOrIsPaidOrUser_Email(Long userId,boolean b,String email);
+
     Optional<UserCategory> findByCidAndUser_Id(Long cid,Long userId);
 
     void deleteById(Long userCategoryId);

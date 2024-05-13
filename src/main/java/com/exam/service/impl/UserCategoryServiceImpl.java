@@ -44,4 +44,15 @@ public class UserCategoryServiceImpl implements UserCategoryService {
 
         this.userCategoryRepository.deleteById(userCategoryId);
     }
+
+    @Override
+    public List<UserCategory> getPaidUserCategory(Long userId) {
+        System.out.println("ew impl");
+        return this.userCategoryRepository.findByUserIdAndIsPaidTrue(userId);
+    }
+
+    @Override
+    public List<UserCategory> getAllCategory(Long userId,boolean b, String email) {
+        return this.userCategoryRepository.findByUserIdOrIsPaidOrUser_Email(userId,b,email);
+    }
 }

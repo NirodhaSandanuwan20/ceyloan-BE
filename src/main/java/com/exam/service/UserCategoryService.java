@@ -11,4 +11,8 @@ public interface UserCategoryService {
     List<UserCategory> getUserCategory(Long userId);
 
     void deleteSelectedUserCategory(Long userCategoryId);
+
+    List<UserCategory> getPaidUserCategory(Long userId);
+
+    List<UserCategory> getAllCategory(Long userId,boolean b, String email);
 }
