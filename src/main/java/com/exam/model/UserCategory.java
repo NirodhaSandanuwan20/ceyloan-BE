@@ -21,6 +21,7 @@ public class UserCategory {
     private User user;
 
     private boolean isPaid;
+
     public UserCategory() {
     }
 
@@ -33,6 +34,7 @@ public class UserCategory {
         this.user = user;
         this.isPaid = isPaid;
     }
+
 
     public void setCid(Long cid) {
         this.cid = cid;

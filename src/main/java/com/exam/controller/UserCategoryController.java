@@ -1,15 +1,14 @@
 package com.exam.controller;
 
 import com.exam.helper.UserCategoryFoundException;
-import com.exam.helper.UserFoundException;
 import com.exam.model.UserCategory;
-import com.exam.model.UserHistory;
 import com.exam.service.UserCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -52,6 +51,11 @@ public class UserCategoryController {
          this.userCategoryService.deleteSelectedUserCategory(userCategoryId);
     }
 
+
+    @PutMapping("/{userCategoryId}")
+    public void updateUserCategory(@PathVariable Long userCategoryId) {
+        this.userCategoryService.updateUserCategoryPayment(userCategoryId);
+    }
 
 
     @ExceptionHandler(UserCategoryFoundException.class)

@@ -15,4 +15,5 @@ public interface UserCategoryService {
     List<UserCategory> getPaidUserCategory(Long userId);
 
     List<UserCategory> getAllCategory(Long userId,boolean b, String email);
+    void updateUserCategoryPayment(Long userCategoryId);
 }

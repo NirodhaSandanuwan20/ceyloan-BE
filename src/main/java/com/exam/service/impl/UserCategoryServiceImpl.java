@@ -24,11 +24,11 @@ public class UserCategoryServiceImpl implements UserCategoryService {
 
     @Override
     public UserCategory addUserCategory(UserCategory userCategory) throws UserCategoryFoundException {
-        Optional<UserCategory> selectedCategory = this.userCategoryRepository.findByCidAndUser_Id(userCategory.getCid(),userCategory.getUser().getId());
+        Optional<UserCategory> selectedCategory = this.userCategoryRepository.findByCidAndUser_Id(userCategory.getCid(), userCategory.getUser().getId());
         System.out.println(selectedCategory);
-        if(selectedCategory.isEmpty()){
+        if (selectedCategory.isEmpty()) {
             return this.userCategoryRepository.save(userCategory);
-        }else{
+        } else {
             throw new UserCategoryFoundException();
         }
 
@@ -47,12 +47,19 @@ public class UserCategoryServiceImpl implements UserCategoryService {
 
     @Override
     public List<UserCategory> getPaidUserCategory(Long userId) {
-        System.out.println("ew impl");
         return this.userCategoryRepository.findByUserIdAndIsPaidTrue(userId);
     }
 
     @Override
-    public List<UserCategory> getAllCategory(Long userId,boolean b, String email) {
-        return this.userCategoryRepository.findByUserIdOrIsPaidOrUser_Email(userId,b,email);
+    public List<UserCategory> getAllCategory(Long userId, boolean b, String email) {
+        return this.userCategoryRepository.findByUserIdOrIsPaidOrUser_Email(userId, b, email);
+    }
+
+    @Override
+    public void updateUserCategoryPayment(Long userCategoryId) {
+        Optional<UserCategory> category = this.userCategoryRepository.findById(userCategoryId);
+        boolean paid = category.get().isPaid();
+        category.get().setPaid(!paid);
+        this.userCategoryRepository.save(category.get());
     }
 }
