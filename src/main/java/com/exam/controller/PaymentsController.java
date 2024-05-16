@@ -3,9 +3,7 @@ package com.exam.controller;
 
 import com.exam.model.UserPayments;
 import com.exam.model.exam.ImageModel;
-import com.exam.model.exam.Question;
 import com.exam.service.PaymentsService;
-import com.exam.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -52,6 +52,11 @@ public class PaymentsController {
             imageModels.add(imageModel);
         }
         return imageModels;
+    }
+
+    @GetMapping("/{payments_id}")
+    public Optional<UserPayments> get(@PathVariable("payments_id") Long payments_id) {
+        return this.paymentsService.getSlip(payments_id);
     }
 
 }
