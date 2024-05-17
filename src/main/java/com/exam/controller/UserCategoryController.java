@@ -53,8 +53,8 @@ public class UserCategoryController {
 
 
     @PutMapping("/{userCategoryId}")
-    public void updateUserCategory(@PathVariable Long userCategoryId) {
-        this.userCategoryService.updateUserCategoryPayment(userCategoryId);
+    public UserCategory updateUserCategory(@PathVariable Long userCategoryId) {
+        return this.userCategoryService.updateUserCategoryPayment(userCategoryId);
     }
 
 

@@ -56,10 +56,11 @@ public class UserCategoryServiceImpl implements UserCategoryService {
     }
 
     @Override
-    public void updateUserCategoryPayment(Long userCategoryId) {
+    public UserCategory updateUserCategoryPayment(Long userCategoryId) {
         Optional<UserCategory> category = this.userCategoryRepository.findById(userCategoryId);
         boolean paid = category.get().isPaid();
         category.get().setPaid(!paid);
         this.userCategoryRepository.save(category.get());
+        return category.get();
     }
 }
