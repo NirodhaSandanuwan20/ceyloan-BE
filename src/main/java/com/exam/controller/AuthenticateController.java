@@ -40,7 +40,7 @@ public class AuthenticateController {
 
         try {
 
-            authenticate(jwtRequest.getUsername(),jwtRequest.getPassword());
+            authenticate(jwtRequest.getEmail(),jwtRequest.getPassword());
 
 
         } catch (UserNotFoundException e) {
@@ -50,7 +50,7 @@ public class AuthenticateController {
 
         /////////////authenticate
 
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getEmail());
         String token = this.jwtUtils.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
 

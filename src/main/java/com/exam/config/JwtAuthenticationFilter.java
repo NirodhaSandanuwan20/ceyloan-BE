@@ -2,13 +2,10 @@ package com.exam.config;
 
 import com.exam.service.impl.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
-import org.apache.catalina.User;
-import org.apache.catalina.security.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -35,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String requestTokenHeader = request.getHeader("Authorization");
         System.out.println("Token header: "+requestTokenHeader);
-        String username = null;
+        String userEmail = null;
         String jwtToken = null;
 
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
@@ -44,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             jwtToken = requestTokenHeader.substring(7);
 
             try {
-                username = this.jwtUtil.extractUsername(jwtToken);
+                userEmail = this.jwtUtil.extractUsername(jwtToken);
             } catch (ExpiredJwtException e) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 System.out.println("token expired");
@@ -54,12 +51,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
         } else {
-            System.out.println("Invalid token , not start with bearer string");
+            System.out.println("token is not valid");
+            filterChain.doFilter(request,response);
+            return;
         }
 
         //validated
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            final UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            final UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             if (this.jwtUtil.validateToken(jwtToken, userDetails)) {
                 //token is valid
 

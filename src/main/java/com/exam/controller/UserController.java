@@ -34,7 +34,7 @@ public class UserController {
         return "WELL COME TO API OF CEYLON PAPERS HUB";
     }
 
-    @PostMapping("/")
+    @PostMapping("/send")
     public boolean createUser(@RequestBody User user) throws Exception {
 
 
@@ -59,7 +59,7 @@ public class UserController {
     }
 
 
-    @PostMapping(value = "/{otp}", params = "email")
+    @PostMapping(value = "/verify/{otp}", params = "email")
     public User verifyUser(@PathVariable String otp, @RequestParam String email) throws Exception {
         User user = userService.verifyAccount(email, otp);
         return user;
@@ -71,7 +71,7 @@ public class UserController {
         return user;
     }
 
-    @PostMapping(value = "/", params = "email")
+    @PostMapping(value = "/resend", params = "email")
     public User resendMail(@RequestParam String email) throws Exception {
         User user = userService.resendMail(email);
         return user;
@@ -90,7 +90,7 @@ public class UserController {
     }
 
     @GetMapping("/{username}")
-    public User getUser(@PathVariable("username") String username) {
+    public Optional<User> getUser(@PathVariable("username") String username) {
         return this.userService.getUser(username);
     }
     @GetMapping("/id/{userId}")

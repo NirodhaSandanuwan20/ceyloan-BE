@@ -1,6 +1,5 @@
 package com.exam.service;
 
-import com.exam.helper.UserFoundException;
 import com.exam.model.User;
 import com.exam.model.UserRole;
 
@@ -13,7 +12,7 @@ public interface UserService {
     public boolean createUser(User user, Set<UserRole> userRoles) throws Exception;
 
     //get user by username
-    public User getUser(String username);
+    public Optional<User> getUser(String username);
     public Optional<User> getUserById(Long userID);
 
     //delete user by id

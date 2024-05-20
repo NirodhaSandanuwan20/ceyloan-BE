@@ -37,7 +37,7 @@ public class ExamserverApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        /*try {
+        try {
 
 
             System.out.println("starting code");
@@ -46,7 +46,6 @@ public class ExamserverApplication implements CommandLineRunner {
 
             user.setFirstName("Nirodha");
             user.setLastName("Sandanuwan");
-            user.setUsername("nirodha123");
             user.setPassword(this.bCryptPasswordEncoder.encode("abc"));
             user.setEmail("nirodhasandanuwan2002@gmail.com");
             user.setProfile("default.png");
@@ -72,6 +71,6 @@ public class ExamserverApplication implements CommandLineRunner {
 
         } catch (UserFoundException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }

@@ -20,7 +20,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(unique = true)
-    private String username;
     private String password;
     private String firstName;
     private String lastName;
@@ -51,9 +50,8 @@ public class User implements UserDetails {
     @JsonIgnore
     private Set<UserCategory> myCategory = new LinkedHashSet<>();
 
-    public User(Long id, String username, String password, String firstName, String lastName, String email, String phone, String otp, boolean enabled, String profile, Set<UserRole> userRoles, Set<UserHistory> history, Set<UserCategory> myCategory) {
+    public User(Long id, String password, String firstName, String lastName, String email, String phone, String otp, boolean enabled, String profile, Set<UserRole> userRoles, Set<UserHistory> history, Set<UserCategory> myCategory) {
         this.id = id;
-        this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -126,10 +124,6 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -143,10 +137,6 @@ public class User implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     @Override
@@ -163,6 +153,11 @@ public class User implements UserDetails {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     public void setPassword(String password) {

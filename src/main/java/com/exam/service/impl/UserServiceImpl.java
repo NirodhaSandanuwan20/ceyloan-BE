@@ -3,7 +3,6 @@ package com.exam.service.impl;
 import com.exam.helper.Generator;
 import com.exam.helper.ServerErorrException;
 import com.exam.helper.UserFoundException;
-import com.exam.helper.UserNotFoundException;
 import com.exam.model.User;
 import com.exam.model.UserRole;
 import com.exam.repo.RoleRepository;
@@ -11,12 +10,9 @@ import com.exam.repo.UserRepository;
 import com.exam.service.EmailService;
 import com.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.net.http.HttpClient;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -210,8 +206,8 @@ public class UserServiceImpl implements UserService {
 
     //getting user by username
     @Override
-    public User getUser(String username) {
-        return this.userRepository.findByUsername(username);
+    public Optional<User> getUser(String username) {
+        return this.userRepository.findByEmail(username);
     }
 
     @Override
