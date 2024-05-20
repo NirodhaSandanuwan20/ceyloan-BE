@@ -8,6 +8,7 @@ import com.exam.model.User;
 import com.exam.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,7 +23,6 @@ import java.security.Principal;
 @CrossOrigin("*")
 public class AuthenticateController {
 
-
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -32,52 +32,39 @@ public class AuthenticateController {
     @Autowired
     private JwtUtils jwtUtils;
 
-
-    //generate token
-
+    // Generate token
     @PostMapping("/generate-token")
-    public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception {
-
+    public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) {
         try {
-
-            authenticate(jwtRequest.getEmail(),jwtRequest.getPassword());
-
-
+            authenticate(jwtRequest.getEmail(), jwtRequest.getPassword());
         } catch (UserNotFoundException e) {
             e.printStackTrace();
-            throw new Exception("User not found ");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
         }
 
-        /////////////authenticate
-
+        // Authenticate
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getEmail());
         String token = this.jwtUtils.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
-
-
     }
 
-
     private void authenticate(String username, String password) throws Exception {
-
         try {
-
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-
         } catch (DisabledException e) {
             throw new Exception("USER DISABLED " + e.getMessage());
         } catch (BadCredentialsException e) {
-            throw new Exception("Invalid Credentials " + e.getMessage());
+            throw new BadCredentialsException("Invalid Credentials " + e.getMessage());
         }
     }
 
-    //return the details of current user
+    // Return the details of the current user
     @GetMapping("/current-user")
     public User getCurrentUser(Principal principal) {
-        return ((User) this.userDetailsService.loadUserByUsername(principal.getName()));
-
+        return (User) this.userDetailsService.loadUserByUsername(principal.getName());
     }
-
-
-
 }
