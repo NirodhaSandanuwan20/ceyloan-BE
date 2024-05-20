@@ -34,12 +34,14 @@ public class UserController {
         return "WELL COME TO API OF CEYLON PAPERS HUB";
     }
 
+
+
+    //method for register user email
     @PostMapping("/send")
     public boolean createUser(@RequestBody User user) throws Exception {
 
 
         user.setProfile("default.png");
-        /*user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));*/
 
         Set<UserRole> roles = new HashSet<>();
         Role role = new Role();
@@ -51,26 +53,28 @@ public class UserController {
         userRole.setRole(role);
 
         roles.add(userRole);
-        System.out.println(user.getEmail());
 
 
         return this.userService.createUser(user, roles);
 
     }
 
-
+    //method for Verify user email
     @PostMapping(value = "/verify/{otp}", params = "email")
     public User verifyUser(@PathVariable String otp, @RequestParam String email) throws Exception {
         User user = userService.verifyAccount(email, otp);
         return user;
     }
 
+
+    //method for Verify user email and save user in db
     @PostMapping(value = "/forgot")
     public User forgotPassword(@RequestParam String otp,@RequestParam String newPassword, @RequestParam String mail) throws Exception {
         User user = userService.forgotPassword(otp,newPassword,mail);
         return user;
     }
 
+    //method for resend otp while user signup
     @PostMapping(value = "/resend", params = "email")
     public User resendMail(@RequestParam String email) throws Exception {
         User user = userService.resendMail(email);

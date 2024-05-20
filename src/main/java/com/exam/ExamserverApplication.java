@@ -5,11 +5,13 @@ import com.exam.model.Role;
 import com.exam.model.User;
 import com.exam.model.UserRole;
 import com.exam.repo.QuizRepository;
+import com.exam.repo.UserRepository;
 import com.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashSet;
@@ -19,7 +21,10 @@ import java.util.Set;
 public class ExamserverApplication implements CommandLineRunner {
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -27,48 +32,55 @@ public class ExamserverApplication implements CommandLineRunner {
     @Autowired
     public QuizRepository quizRepository;
 
+    @Value("${admin.email}")
+    private String adminEmail;
+
+    @Value("${admin.password}")
+    private String adminPassword;
+
+    @Value("${admin.firstName}")
+    private String adminFirstName;
+
+    @Value("${admin.lastName}")
+    private String adminLastName;
+
+    @Value("${admin.role}")
+    private String adminRole;
+
     public static void main(String[] args) {
-
-
         SpringApplication.run(ExamserverApplication.class, args);
-
-
     }
 
     @Override
     public void run(String... args) throws Exception {
         try {
+            System.out.println("++++++++++++++++++++++Starting code++++++++++++++++++++");
+
+            if (userRepository.findByEmail(adminEmail).isEmpty()) {
+                User admin = new User();
+                admin.setFirstName(adminFirstName);
+                admin.setLastName(adminLastName);
+                admin.setPassword(bCryptPasswordEncoder.encode(adminPassword));
+                admin.setEmail(adminEmail);
+                admin.setProfile("default.png");
+                admin.setEnabled(true);
+
+                Role role = new Role();
+                role.setRoleId(44L);
+                role.setRoleName(adminRole);
+
+                Set<UserRole> userRoles = new HashSet<>();
+                UserRole userRole = new UserRole();
+                userRole.setRole(role);
+                userRole.setUser(admin);
+                userRoles.add(userRole);
 
 
-            System.out.println("starting code");
+                userService.createUser(admin, userRoles);
 
-            User user = new User();
-
-            user.setFirstName("Nirodha");
-            user.setLastName("Sandanuwan");
-            user.setPassword(this.bCryptPasswordEncoder.encode("abc"));
-            user.setEmail("nirodhasandanuwan2002@gmail.com");
-            user.setProfile("default.png");
-            user.setEnabled(true);
-
-            Role role1 = new Role();
-            role1.setRoleId(44L);
-            role1.setRoleName("ADMIN");
-
-
-            Set<UserRole> userRoleSet = new HashSet<>();
-            UserRole userRole = new UserRole();
-
-            userRole.setRole(role1);
-
-            userRole.setUser(user);
-
-            userRoleSet.add(userRole);
-
-            boolean user1 = this.userService.createUser(user, userRoleSet);
-            System.out.println(user1);
-
-
+            } else {
+                System.out.println("Admin user already exists.");
+            }
         } catch (UserFoundException e) {
             e.printStackTrace();
         }
