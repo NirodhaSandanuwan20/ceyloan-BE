@@ -61,8 +61,8 @@ public class UserController {
 
     //method for Verify user email
     @PostMapping(value = "/verify/{otp}", params = "email")
-    public User verifyUser(@PathVariable String otp, @RequestParam String email) throws Exception {
-        User user = userService.verifyAccount(email, otp);
+    public ResponseEntity<?> verifyUser(@PathVariable String otp, @RequestParam String email) throws Exception {
+        ResponseEntity<?> user = userService.verifyAccount(email, otp);
         return user;
     }
 

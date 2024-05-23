@@ -2,6 +2,7 @@ package com.exam.service;
 
 import com.exam.model.User;
 import com.exam.model.UserRole;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 import java.util.Set;
@@ -18,7 +19,7 @@ public interface UserService {
     //delete user by id
     public void deleteUser(Long userId);
 
-    public User verifyAccount(String email, String otp) throws Exception;
+    public ResponseEntity<?> verifyAccount(String email, String otp) throws Exception;
     public User resendMail(String email);
     public User changeEmailRequest(String oldEmail,String newEmail);
 

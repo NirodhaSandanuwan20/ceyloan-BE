@@ -1,8 +1,8 @@
 package com.exam.service.impl;
 
 import com.exam.helper.Generator;
-import com.exam.helper.ServerErorrException;
 import com.exam.helper.UserFoundException;
+import com.exam.model.JwtResponse;
 import com.exam.model.User;
 import com.exam.model.UserRole;
 import com.exam.repo.RoleRepository;
@@ -10,6 +10,8 @@ import com.exam.repo.UserRepository;
 import com.exam.service.EmailService;
 import com.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -87,14 +89,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User verifyAccount(String email, String otp) throws Exception {
+    public ResponseEntity<?> verifyAccount(String email, String otp) throws Exception {
         Optional<User> selectedUser = userRepository.findByEmail(email);
         if (selectedUser.isEmpty()) throw new UserFoundException();
         if (selectedUser.get().getOtp().equals(otp)) {
             User Activated = userRepository.save(selectedUser.get());
-            return Activated;
+            return ResponseEntity.ok(Activated);
         } else {
-            throw new Exception();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("An error occurred: ");
         }
 
     }
