@@ -44,7 +44,10 @@ public class UserServiceImpl implements UserService {
 
         if (local.isPresent() && !local.get().isEnabled()) {
             //email registered but not verified
-            emailService.signupEmail(user.getEmail(), local.get().getOtp());
+            String verifyCode = generator.createVerifyCode();
+            emailService.signupEmail(user.getEmail(), verifyCode);
+            local.get().setOtp(verifyCode);
+            this.userRepository.save(local.get());
             return true;
         } else if (local.isPresent() && local.get().isEnabled()) {
             //already verified email
