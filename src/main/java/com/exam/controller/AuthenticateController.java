@@ -1,6 +1,6 @@
 package com.exam.controller;
 
-import com.exam.config.JwtUtils;
+import com.exam.config.JwtUtil;
 import com.exam.helper.UserNotFoundException;
 import com.exam.model.JwtRequest;
 import com.exam.model.JwtResponse;
@@ -23,20 +23,24 @@ import java.security.Principal;
 @CrossOrigin("*")
 public class AuthenticateController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    private JwtUtils jwtUtils;
+    private JwtUtil jwtUtils;
+
+
+    JwtResponse jwtResponse;
+
 
     // Generate token
     @PostMapping("/generate-token")
     public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) {
+
         try {
-            authenticate(jwtRequest.getEmail(), jwtRequest.getPassword());
+            jwtResponse = this.userDetailsService.createJwtToken(jwtRequest);
         } catch (UserNotFoundException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
@@ -45,26 +49,14 @@ public class AuthenticateController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
         }
-
-        // Authenticate
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getEmail());
-        String token = this.jwtUtils.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(jwtResponse);
     }
 
-    private void authenticate(String username, String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER DISABLED " + e.getMessage());
-        } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Invalid Credentials " + e.getMessage());
-        }
-    }
+
 
     // Return the details of the current user
     @GetMapping("/current-user")
-    public User getCurrentUser(Principal principal) {
-        return (User) this.userDetailsService.loadUserByUsername(principal.getName());
+    public User getCurrentUser() {
+        return this.jwtResponse.getUser();
     }
 }

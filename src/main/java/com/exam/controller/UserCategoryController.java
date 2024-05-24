@@ -5,6 +5,7 @@ import com.exam.model.UserCategory;
 import com.exam.service.UserCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,30 +30,38 @@ public class UserCategoryController {
         return ResponseEntity.ok(this.userCategoryService.addUserCategory(c));
     }
 //pending and paid
+
+
     @GetMapping("/{userId}")
     public List<UserCategory> getUserCategory(@PathVariable Long userId) {
         return this.userCategoryService.getUserCategory(userId);
     }
-//paid
-    @GetMapping(value="/", params = "userId")
+
+    //paid
+    @GetMapping(value = "/", params = "userId")
     public List<UserCategory> getPaidUserCategory(@RequestParam Long userId) {
         System.out.println("ew c");
         return this.userCategoryService.getPaidUserCategory(userId);
     }
 
-    @GetMapping(value="/all")
+
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(value = "/all")
     public List<UserCategory> getPaidUserCategory(@RequestParam(required = false) Long cid, @RequestParam(defaultValue = "false") Boolean b, @RequestParam(defaultValue = "") String email) {
-        return this.userCategoryService.getAllCategory(cid,b,email);
+        return this.userCategoryService.getAllCategory(cid, b, email);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/")
     public void deleteSelectedUserCategory(@RequestParam Long userCategoryId) {
 
-         this.userCategoryService.deleteSelectedUserCategory(userCategoryId);
+        this.userCategoryService.deleteSelectedUserCategory(userCategoryId);
     }
 
 
     @PutMapping("/{userCategoryId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public UserCategory updateUserCategory(@PathVariable Long userCategoryId) {
         return this.userCategoryService.updateUserCategoryPayment(userCategoryId);
     }
