@@ -20,21 +20,29 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private RoleRepository roleRepository;
+    @Autowired
     private EmailService emailService;
+    @Autowired
     private Generator generator;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, EmailService emailService, Generator generator) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, EmailService emailService, Generator generator, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.emailService = emailService;
         this.generator = generator;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
+
+
+
 
 
     //creating user
@@ -158,5 +166,4 @@ public class UserServiceImpl implements UserService {
 
     }
 }
-
 
