@@ -5,6 +5,7 @@ import com.exam.model.UserHistory;
 import com.exam.service.UserHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class UserHistoryController {
     }
 
     @GetMapping("/")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserHistory> getQuizAttempts(@RequestParam Long qid, @RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "") String searchText1, @RequestParam(defaultValue = "") String searchText2) {
 
         return this.historyService.getQuizAttempts(qid,pageNumber,searchText1,searchText2);

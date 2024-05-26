@@ -10,6 +10,7 @@ public interface CategoryService {
     public Category updateCategory(Category category);
 
     public Set<Category> getCategories(String searchText);
+    public Set<Category> getNonePaidCategories(String searchText , Long userId);
 
     public Category getCategory(Long categoryId);
 

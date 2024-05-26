@@ -8,6 +8,7 @@ import com.exam.model.UserRole;
 import com.exam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -103,6 +104,7 @@ public class UserController {
     }
 
     //delete the user by id
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{userId}")
     public void deleteUser(@PathVariable("userId") Long userId) {
         this.userService.deleteUser(userId);

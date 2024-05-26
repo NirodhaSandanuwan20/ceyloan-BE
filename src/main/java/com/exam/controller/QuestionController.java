@@ -9,6 +9,7 @@ import com.exam.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +27,7 @@ public class QuestionController {
     private QuizService quizService;
 
     //add question
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = {"/"},  consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Question> add(@RequestPart Question question, @RequestPart("imageFile") MultipartFile[] file) {
         /*return ResponseEntity.ok(this.questionService.addQuestion(question));*/
@@ -54,6 +56,7 @@ public class QuestionController {
     }
 
     //update the question
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/")
     public ResponseEntity<Question> update(@RequestBody Question question) {
         return ResponseEntity.ok(this.questionService.updateQuestion(question));
@@ -100,6 +103,7 @@ public class QuestionController {
     }
 
     //delete question
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{quesId}")
     public void delete(@PathVariable("quesId") Long quesId) {
         this.questionService.deleteQuestion(quesId);

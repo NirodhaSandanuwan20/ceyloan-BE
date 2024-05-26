@@ -8,9 +8,7 @@ import com.exam.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -36,6 +34,27 @@ public class CategoryServiceImpl implements CategoryService {
         System.out.println(searchText);
         return new LinkedHashSet<>(this.categoryRepository.findByTitleContainingIgnoreCase(searchText));
     }
+
+    @Override
+    public Set<Category> getNonePaidCategories(String searchText, Long userId) {
+        // Get user's categories
+        List<UserCategory> userCategories = this.userCategoryRepository.findAllByUser_Id(userId);
+
+        // Get all categories based on the search text
+        List<Category> allCategories = this.categoryRepository.findByTitleContainingIgnoreCase(searchText);
+
+        // Create a set to store none-paid categories
+        Set<Category> nonePaidCategories = new HashSet<>(allCategories);
+
+        // Remove user's categories from none-paid categories
+        for (UserCategory userCategory : userCategories) {
+            nonePaidCategories.removeIf(category -> category.getCid().equals(userCategory.getCid()));
+        }
+
+        return nonePaidCategories;
+    }
+
+
 
     @Override
     public Category getCategory(Long categoryId) {

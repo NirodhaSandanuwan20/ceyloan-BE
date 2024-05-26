@@ -7,6 +7,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,13 +21,14 @@ public class QuizController {
     private QuizService quizService;
 
     //add quiz service
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/")
     public ResponseEntity<Quiz> add(@RequestBody Quiz quiz) {
         return ResponseEntity.ok(this.quizService.addQuiz(quiz));
     }
 
     //update quiz
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/")
     public ResponseEntity<Quiz> update(@RequestBody Quiz quiz) {
         return ResponseEntity.ok(this.quizService.updateQuiz(quiz));
@@ -45,6 +47,7 @@ public class QuizController {
     }
 
     //delete the quiz
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{qid}")
     public void delete(@PathVariable("qid") Long qid) {
         this.quizService.deleteQuiz(qid);
