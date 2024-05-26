@@ -66,6 +66,13 @@ public class UserCategoryController {
         return this.userCategoryService.updateUserCategoryPayment(userCategoryId);
     }
 
+    @DeleteMapping("/decline/{userCategoryId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void declinePayment(@PathVariable Long userCategoryId) {
+        System.out.println("ucid: controler "+ userCategoryId);
+         this.userCategoryService.declinePayment(userCategoryId);
+    }
+
 
     @ExceptionHandler(UserCategoryFoundException.class)
     public ResponseEntity<?> exceptionHandler(UserCategoryFoundException ex) {

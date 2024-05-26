@@ -63,4 +63,11 @@ public class UserCategoryServiceImpl implements UserCategoryService {
         this.userCategoryRepository.save(category.get());
         return category.get();
     }
+
+    @Override
+    public void declinePayment(Long userCategoryId) {
+        System.out.println("ucid: impl"+ userCategoryId);
+        this.userCategoryRepository.deleteById(userCategoryId);
+    }
+
 }
