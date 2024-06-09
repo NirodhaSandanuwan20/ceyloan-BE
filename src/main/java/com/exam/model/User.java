@@ -1,8 +1,6 @@
 package com.exam.model;
 
-import com.exam.model.exam.Quiz;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import net.bytebuddy.implementation.bind.annotation.Default;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -50,7 +48,11 @@ public class User implements UserDetails {
     @JsonIgnore
     private Set<UserCategory> myCategory = new LinkedHashSet<>();
 
-    public User(Long id, String password, String firstName, String lastName, String email, String phone, String otp, boolean enabled, String profile, Set<UserRole> userRoles, Set<UserHistory> history, Set<UserCategory> myCategory) {
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Notification> notifications = new LinkedHashSet<>();
+
+    public User(Long id, String password, String firstName, String lastName, String email, String phone, String otp, boolean enabled, String profile, Set<UserRole> userRoles, Set<UserHistory> history, Set<UserCategory> myCategory, Set<Notification> notifications) {
         this.id = id;
         this.password = password;
         this.firstName = firstName;
@@ -63,6 +65,15 @@ public class User implements UserDetails {
         this.userRoles = userRoles;
         this.history = history;
         this.myCategory = myCategory;
+        this.notifications = notifications;
+    }
+
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Set<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     public Set<UserCategory> getMyCategory() {
