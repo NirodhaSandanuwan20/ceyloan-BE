@@ -41,10 +41,10 @@ public class NotificationController {
     }
 
     @PostMapping("/add")
-    public void addNotification(@RequestParam Long userId, @RequestParam String message) {
+    public void addNotification(@RequestBody NotificationRequest request) {
         User user = new User();
-        user.setId(userId);
-        notificationService.addNotification(user, message);
+        user.setId(request.getUserId());
+        notificationService.addNotification(user, request.getMessage());
     }
 
     @PostMapping("/mark-seen")
@@ -52,4 +52,29 @@ public class NotificationController {
         Optional<Notification> notification = notificationRepository.findById(notificationId);
         notificationService.markNotificationAsSeen(notification.get());
     }
+
+    public static class NotificationRequest {
+        private Long userId;
+        private String message;
+
+        // Getters and setters
+        public Long getUserId() {
+            return userId;
+        }
+
+        public void setUserId(Long userId) {
+            this.userId = userId;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+    }
+
 }
+
+
